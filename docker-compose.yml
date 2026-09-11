@@ -1,0 +1,61 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql_db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: turnosdb
+      MYSQL_ROOT_HOST: '%'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  app-listener:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_listener
+    depends_on:
+      mosquitto:
+        condition: service_started
+      mysql-db:
+        condition: service_healthy
+    environment:
+      BROKER_URL: tcp://mosquitto:1883
+      MAIN_CLASS: com.mycompany.taller2.ingsoft.SubscriberReservaMQTT
+    restart: on-failure
+
+  app-generador:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_generador
+    depends_on:
+      mosquitto:
+        condition: service_started
+      mysql-db:
+        condition: service_healthy
+    environment:
+      BROKER_URL: tcp://mosquitto:1883
+      MAIN_CLASS: com.mycompany.taller2.ingsoft.GeneradorReservasMQTT
+    restart: on-failure
+
+volumes:
+  mysql_data:
