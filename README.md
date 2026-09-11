@@ -52,7 +52,7 @@ Broker MQTT utilizado para la comunicación entre los módulos.
 
 Consumidor MQTT y persistidor de reservas.
 
-Se encarga de:cat > README.md <<'EOF'
+
 # Taller 2 - Sistema de Reserva de Turnos
 
 ## Descripción
