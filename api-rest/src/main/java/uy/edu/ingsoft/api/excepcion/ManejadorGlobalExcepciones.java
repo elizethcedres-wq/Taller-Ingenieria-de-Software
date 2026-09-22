@@ -106,4 +106,20 @@ public class ManejadorGlobalExcepciones {
                 .status(estado)
                 .body(error);
     }
+    
+    @ExceptionHandler(ServicioNoDisponibleException.class)
+    public ResponseEntity<ErrorRespuesta> manejarServicioNoDisponible(
+        ServicioNoDisponibleException excepcion,
+        HttpServletRequest solicitud) 
+    {
+    return construirRespuesta(
+            HttpStatus.SERVICE_UNAVAILABLE,
+            excepcion.getMessage(),
+            solicitud
+        );
+    }
+    
+    
+    
+    
 }
