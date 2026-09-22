@@ -1,0 +1,33 @@
+# Maven
+target/
+*.class
+*.jar
+
+# NetBeans
+nbproject/private/
+build/
+dist/
+
+# IntelliJ y VS Code
+.idea/
+.vscode/
+*.iml
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Variables y credenciales
+.env
+*.env
+
+# Mosquitto
+mosquitto/data/*
+mosquitto/log/*
+*.lck
+*.log
+
+# Archivos temporales
+*.tmp
+*.swp
+*~

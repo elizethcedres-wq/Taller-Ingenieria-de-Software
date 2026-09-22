@@ -1,0 +1,581 @@
+openapi: 3.0.3
+
+info:
+  title: Sistema de Reserva de Turnos
+  description: |
+    API REST para administrar establecimientos, personal y reservas.
+    La creación y cancelación de reservas se procesan de forma asíncrona
+    mediante Eclipse Mosquitto.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api
+    description: Servidor local mediante Docker Compose
+
+tags:
+  - name: Establecimientos
+  - name: Personal
+  - name: Reservas
+
+paths:
+  /establecimientos:
+    get:
+      tags:
+        - Establecimientos
+      summary: Listar establecimientos
+      operationId: listarEstablecimientos
+      responses:
+        "200":
+          description: Lista de establecimientos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EstablecimientoRespuesta"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+    post:
+      tags:
+        - Establecimientos
+      summary: Crear un establecimiento
+      operationId: crearEstablecimiento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EstablecimientoEntrada"
+      responses:
+        "201":
+          description: Establecimiento creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EstablecimientoRespuesta"
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+  /establecimientos/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+
+    get:
+      tags:
+        - Establecimientos
+      summary: Obtener un establecimiento por ID
+      operationId: obtenerEstablecimiento
+      responses:
+        "200":
+          description: Establecimiento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EstablecimientoRespuesta"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+    put:
+      tags:
+        - Establecimientos
+      summary: Actualizar un establecimiento
+      operationId: actualizarEstablecimiento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EstablecimientoEntrada"
+      responses:
+        "200":
+          description: Establecimiento actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EstablecimientoRespuesta"
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+    delete:
+      tags:
+        - Establecimientos
+      summary: Eliminar un establecimiento
+      operationId: eliminarEstablecimiento
+      responses:
+        "204":
+          description: Establecimiento eliminado
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "409":
+          description: No se puede eliminar porque tiene personal asociado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+  /establecimientos/{id}/personal:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+
+    get:
+      tags:
+        - Personal
+      summary: Listar el personal de un establecimiento
+      operationId: listarPersonalPorEstablecimiento
+      responses:
+        "200":
+          description: Lista de personal
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PersonalRespuesta"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+  /personal:
+    get:
+      tags:
+        - Personal
+      summary: Listar todo el personal
+      operationId: listarPersonal
+      responses:
+        "200":
+          description: Lista de personal
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PersonalRespuesta"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+    post:
+      tags:
+        - Personal
+      summary: Crear personal
+      operationId: crearPersonal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonalEntrada"
+      responses:
+        "201":
+          description: Personal creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonalRespuesta"
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
+        "404":
+          description: El establecimiento indicado no existe
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+  /personal/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+
+    get:
+      tags:
+        - Personal
+      summary: Obtener personal por ID
+      operationId: obtenerPersonal
+      responses:
+        "200":
+          description: Personal encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonalRespuesta"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+    put:
+      tags:
+        - Personal
+      summary: Actualizar personal
+      operationId: actualizarPersonal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonalEntrada"
+      responses:
+        "200":
+          description: Personal actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonalRespuesta"
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+    delete:
+      tags:
+        - Personal
+      summary: Eliminar personal
+      operationId: eliminarPersonal
+      responses:
+        "204":
+          description: Personal eliminado
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "409":
+          description: No se puede eliminar porque tiene reservas asociadas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+  /personal/{id}/reservas:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+      - name: fecha
+        in: query
+        required: false
+        description: Fecha por la que se desea filtrar
+        schema:
+          type: string
+          format: date
+          example: "2026-09-25"
+
+    get:
+      tags:
+        - Reservas
+      summary: Consultar reservas de un integrante del personal
+      operationId: listarReservasPorPersonal
+      responses:
+        "200":
+          description: Lista de reservas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReservaRespuesta"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+  /reservas:
+    get:
+      tags:
+        - Reservas
+      summary: Listar reservas
+      operationId: listarReservas
+      responses:
+        "200":
+          description: Lista de reservas persistidas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReservaRespuesta"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+    post:
+      tags:
+        - Reservas
+      summary: Solicitar una nueva reserva
+      description: |
+        Publica la solicitud en el topic turnos/reserva de Mosquitto.
+        El consumidor MQTT valida y persiste posteriormente la reserva.
+      operationId: solicitarReserva
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservaEntrada"
+      responses:
+        "202":
+          description: Solicitud aceptada para procesamiento
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mensaje"
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
+        "503":
+          description: No se pudo conectar con Mosquitto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /reservas/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+
+    get:
+      tags:
+        - Reservas
+      summary: Obtener una reserva por ID
+      operationId: obtenerReserva
+      responses:
+        "200":
+          description: Reserva encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaRespuesta"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
+
+    delete:
+      tags:
+        - Reservas
+      summary: Solicitar la cancelación de una reserva
+      description: Publica la cancelación en el topic turnos/cancelar.
+      operationId: cancelarReserva
+      responses:
+        "202":
+          description: Cancelación aceptada para procesamiento
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mensaje"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "503":
+          description: No se pudo conectar con Mosquitto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: Identificador del recurso
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+
+  responses:
+    SolicitudInvalida:
+      description: La solicitud contiene datos inválidos
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    RecursoNoEncontrado:
+      description: El recurso solicitado no existe
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    ErrorInterno:
+      description: Error interno del servidor
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  schemas:
+    EstablecimientoEntrada:
+      type: object
+      required:
+        - nombreComercial
+        - direccion
+        - telefono
+        - correo
+        - horarioApertura
+        - horarioCierre
+      properties:
+        nombreComercial:
+          type: string
+          example: Clínica Central
+        direccion:
+          type: string
+          example: Avenida Artigas 1234
+        telefono:
+          type: string
+          example: "099123456"
+        correo:
+          type: string
+          format: email
+          example: contacto@clinicacentral.uy
+        horarioApertura:
+          type: string
+          format: time
+          example: "08:00:00"
+        horarioCierre:
+          type: string
+          format: time
+          example: "18:00:00"
+
+    EstablecimientoRespuesta:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 1
+        - $ref: "#/components/schemas/EstablecimientoEntrada"
+
+    PersonalEntrada:
+      type: object
+      required:
+        - nombre
+        - especialidad
+        - costoConsulta
+        - duracionEstandar
+        - estado
+        - establecimientoId
+      properties:
+        nombre:
+          type: string
+          example: Ana Pereira
+        especialidad:
+          type: string
+          example: Medicina general
+        costoConsulta:
+          type: integer
+          minimum: 0
+          example: 1800
+        duracionEstandar:
+          type: integer
+          minimum: 1
+          example: 30
+        estado:
+          type: boolean
+          example: true
+        establecimientoId:
+          type: integer
+          format: int64
+          minimum: 1
+          example: 1
+
+    PersonalRespuesta:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 1
+        - $ref: "#/components/schemas/PersonalEntrada"
+
+    ReservaEntrada:
+      type: object
+      required:
+        - emailSolicitante
+        - telefonoSolicitante
+        - personalId
+        - fechaHoraTurno
+      properties:
+        emailSolicitante:
+          type: string
+          format: email
+          example: cliente@correo.com
+        telefonoSolicitante:
+          type: string
+          example: "098765432"
+        personalId:
+          type: integer
+          format: int64
+          minimum: 1
+          example: 1
+        fechaHoraTurno:
+          type: string
+          format: date-time
+          example: "2026-09-25T10:30:00"
+
+    ReservaRespuesta:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        fechaReserva:
+          type: string
+          format: date
+          example: "2026-09-19"
+        emailSolicitante:
+          type: string
+          format: email
+          example: cliente@correo.com
+        telefonoSolicitante:
+          type: string
+          example: "098765432"
+        personalId:
+          type: integer
+          format: int64
+          example: 1
+        fechaHoraTurno:
+          type: string
+          format: date-time
+          example: "2026-09-25T10:30:00"
+
+    Mensaje:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: Solicitud aceptada para procesamiento
+
+    Error:
+      type: object
+      properties:
+        fechaHora:
+          type: string
+          format: date-time
+          example: "2026-09-19T10:30:00"
+        estado:
+          type: integer
+          example: 404
+        error:
+          type: string
+          example: Recurso no encontrado
+        mensaje:
+          type: string
+          example: No existe un establecimiento con ID 25
+        ruta:
+          type: string
+          example: /api/establecimientos/25
