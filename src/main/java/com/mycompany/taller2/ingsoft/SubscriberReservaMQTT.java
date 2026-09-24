@@ -73,6 +73,9 @@ public class SubscriberReservaMQTT {
                         String topic,
                         MqttMessage message
                 ) throws Exception {
+                    
+                    em.clear();
+                    emf.getCache().evictAll();
 
                     String json =
                             new String(message.getPayload());
@@ -382,18 +385,18 @@ public class SubscriberReservaMQTT {
 
         // Verificar solapamiento de turnos.
         LocalDateTime limiteInferior =
-                fechaHoraTurno.minusMinutes(29);
+                fechaHoraTurno.minusMinutes(30);
 
         LocalDateTime limiteSuperior =
-                fechaHoraTurno.plusMinutes(29);
+                fechaHoraTurno.plusMinutes(30);
 
         Long cantidadReservas =
                 em.createQuery(
                         "SELECT COUNT(r) "
                         + "FROM ReservaTurno r "
                         + "WHERE r.personal = :personal "
-                        + "AND r.fechaHoraTurno >= :limiteInferior "
-                        + "AND r.fechaHoraTurno <= :limiteSuperior",
+                        + "AND r.fechaHoraTurno > :limiteInferior "
+                        + "AND r.fechaHoraTurno < :limiteSuperior",
                         Long.class
                 )
                 .setParameter("personal", personal)
@@ -745,18 +748,18 @@ public class SubscriberReservaMQTT {
         }
 
         LocalDateTime limiteInferior =
-                fechaHora.minusMinutes(29);
+                fechaHora.minusMinutes(30);
 
         LocalDateTime limiteSuperior =
-                fechaHora.plusMinutes(29);
+                fechaHora.plusMinutes(30);
 
         Long cantidadReservas =
                 em.createQuery(
                         "SELECT COUNT(r) "
                         + "FROM ReservaTurno r "
                         + "WHERE r.personal = :personal "
-                        + "AND r.fechaHoraTurno >= :limiteInferior "
-                        + "AND r.fechaHoraTurno <= :limiteSuperior",
+                        + "AND r.fechaHoraTurno > :limiteInferior "
+                        + "AND r.fechaHoraTurno < :limiteSuperior",
                         Long.class
                 )
                 .setParameter(
