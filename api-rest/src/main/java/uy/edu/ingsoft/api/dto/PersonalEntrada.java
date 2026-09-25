@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
 public record PersonalEntrada(
 
@@ -22,9 +24,8 @@ public record PersonalEntrada(
         )
         int costoConsulta,
 
-        @Positive(
-                message = "La duración estándar debe ser mayor que cero"
-        )
+        @Min(value = 30, message = "La duración estándar debe ser de 30 minutos")
+        @Max(value = 30, message = "La duración estándar debe ser de 30 minutos")
         int duracionEstandar,
 
         @NotNull(message = "El estado es obligatorio")

@@ -4,6 +4,10 @@
  */
 package uy.edu.ingsoft.api.controlador;
 
+
+import java.time.LocalDateTime;
+import java.util.Map;
+import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
@@ -75,5 +79,21 @@ public class ReservaControlador {
         return ResponseEntity
                 .accepted()
                 .body(servicio.cancelar(id));
+    }
+    
+    @GetMapping("/personal/{id}/disponibilidad")
+    public ResponseEntity<Map<String, Object>> disponibilidad(
+            @PathVariable Long id,
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            LocalDateTime fechaHora
+    ) {
+        boolean disponible = servicio.estaDisponible(id, fechaHora);
+
+        return ResponseEntity.ok(Map.of(
+                "personalId", id,
+                "fechaHoraTurno", fechaHora,
+                "disponible", disponible
+        ));
     }
 }

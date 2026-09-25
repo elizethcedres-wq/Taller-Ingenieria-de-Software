@@ -18,6 +18,44 @@ tags:
   - name: Reservas
 
 paths:
+  /personal/{id}/disponibilidad:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+      - name: fechaHora
+        in: query
+        required: true
+        description: Fecha y hora local del turno a consultar.
+        schema:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?$'
+          example: "2026-09-30T11:00:00"
+
+    get:
+      tags:
+        - Reservas
+      summary: Consultar disponibilidad de un profesional
+      operationId: consultarDisponibilidad
+      responses:
+        "200":
+          description: Resultado de disponibilidad
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  personalId:
+                    type: integer
+                    format: int64
+                  fechaHoraTurno:
+                    type: string
+                  disponible:
+                    type: boolean
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
+        "500":
+          $ref: "#/components/responses/ErrorInterno"
   /establecimientos:
     get:
       tags:
@@ -69,6 +107,8 @@ paths:
       summary: Obtener un establecimiento por ID
       operationId: obtenerEstablecimiento
       responses:
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
         "200":
           description: Establecimiento encontrado
           content:
@@ -111,6 +151,8 @@ paths:
       summary: Eliminar un establecimiento
       operationId: eliminarEstablecimiento
       responses:
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
         "204":
           description: Establecimiento eliminado
         "404":
@@ -134,6 +176,8 @@ paths:
       summary: Listar el personal de un establecimiento
       operationId: listarPersonalPorEstablecimiento
       responses:
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
         "200":
           description: Lista de personal
           content:
@@ -204,6 +248,8 @@ paths:
       summary: Obtener personal por ID
       operationId: obtenerPersonal
       responses:
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
         "200":
           description: Personal encontrado
           content:
@@ -246,6 +292,8 @@ paths:
       summary: Eliminar personal
       operationId: eliminarPersonal
       responses:
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
         "204":
           description: Personal eliminado
         "404":
@@ -277,6 +325,8 @@ paths:
       summary: Consultar reservas de un integrante del personal
       operationId: listarReservasPorPersonal
       responses:
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
         "200":
           description: Lista de reservas
           content:
@@ -323,6 +373,8 @@ paths:
             schema:
               $ref: "#/components/schemas/ReservaEntrada"
       responses:
+        "404":
+          $ref: "#/components/responses/RecursoNoEncontrado"
         "202":
           description: Solicitud aceptada para procesamiento
           content:
@@ -348,6 +400,8 @@ paths:
       summary: Obtener una reserva por ID
       operationId: obtenerReserva
       responses:
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
         "200":
           description: Reserva encontrada
           content:
@@ -366,6 +420,8 @@ paths:
       description: Publica la cancelación en el topic turnos/cancelar.
       operationId: cancelarReserva
       responses:
+        "400":
+          $ref: "#/components/responses/SolicitudInvalida"
         "202":
           description: Cancelación aceptada para procesamiento
           content:
@@ -395,7 +451,7 @@ components:
 
   responses:
     SolicitudInvalida:
-      description: La solicitud contiene datos inválidos
+      description: Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.
       content:
         application/json:
           schema:
@@ -480,7 +536,9 @@ components:
           example: 1800
         duracionEstandar:
           type: integer
-          minimum: 1
+          minimum: 30
+          maximum: 30
+          description: Todos los turnos duran exactamente 30 minutos.
           example: 30
         estado:
           type: boolean
@@ -523,7 +581,8 @@ components:
           example: 1
         fechaHoraTurno:
           type: string
-          format: date-time
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?$'
+          description: Fecha y hora local sin zona horaria.
           example: "2026-09-25T10:30:00"
 
     ReservaRespuesta:
@@ -550,7 +609,8 @@ components:
           example: 1
         fechaHoraTurno:
           type: string
-          format: date-time
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?$'
+          description: Fecha y hora local sin zona horaria.
           example: "2026-09-25T10:30:00"
 
     Mensaje:
@@ -565,7 +625,8 @@ components:
       properties:
         fechaHora:
           type: string
-          format: date-time
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?$'
+          description: Fecha y hora local sin zona horaria.
           example: "2026-09-19T10:30:00"
         estado:
           type: integer

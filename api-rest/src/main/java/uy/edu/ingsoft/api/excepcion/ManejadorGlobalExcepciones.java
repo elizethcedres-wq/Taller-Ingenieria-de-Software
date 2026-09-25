@@ -4,6 +4,8 @@
  */
 package uy.edu.ingsoft.api.excepcion;
 
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
@@ -25,6 +27,40 @@ public class ManejadorGlobalExcepciones {
         return construirRespuesta(
                 HttpStatus.NOT_FOUND,
                 excepcion.getMessage(),
+                solicitud
+        );
+    }
+    
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorRespuesta> manejarCuerpoInvalido(
+            HttpMessageNotReadableException excepcion,
+            HttpServletRequest solicitud
+    ) {
+        return construirRespuesta(
+                HttpStatus.BAD_REQUEST,
+                "El cuerpo de la solicitud es obligatorio y debe contener "
+                        + "un JSON válido con los tipos y formatos esperados",
+                solicitud
+        );
+    }
+    
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorRespuesta> manejarTipoInvalido(
+        MethodArgumentTypeMismatchException excepcion,
+        HttpServletRequest solicitud
+    ) {
+        String mensaje = "Valor inválido para el parámetro '"
+            + excepcion.getName() + "'";
+
+        if ("fecha".equals(excepcion.getName())) {
+            mensaje += ". Usá el formato AAAA-MM-DD y una fecha válida";
+        } else if ("id".equals(excepcion.getName())) {
+            mensaje += ". Debe ser un número entero";
+        }
+
+        return construirRespuesta(
+                HttpStatus.BAD_REQUEST,
+                mensaje,
                 solicitud
         );
     }

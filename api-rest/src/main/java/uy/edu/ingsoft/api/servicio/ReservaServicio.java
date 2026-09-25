@@ -4,6 +4,8 @@
  */
 package uy.edu.ingsoft.api.servicio;
 
+import java.time.LocalTime;
+import uy.edu.ingsoft.api.modelo.Personal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -142,5 +144,40 @@ public class ReservaServicio {
                 "Solicitud de cancelación aceptada "
                 + "para procesamiento"
         );
+    }
+    
+    @Transactional(readOnly = true)
+    public boolean estaDisponible(Long personalId, LocalDateTime fechaHora) {
+        Personal personal = personalRepositorio.findById(personalId)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "No existe personal con ID " + personalId));
+
+        if (!Boolean.TRUE.equals(personal.getEstado())) {
+            return false;
+        }
+
+        if (personal.getEstablecimiento() == null
+                || personal.getDuracionEstandar() != 30) {
+            return false;
+        }
+
+        LocalTime inicio = fechaHora.toLocalTime();
+        LocalTime fin = inicio.plusMinutes(30);
+
+        if (inicio.isBefore(personal.getEstablecimiento().getHorarioApertura())
+                || fin.isAfter(personal.getEstablecimiento().getHorarioCierre())) {
+            return false;
+        }
+
+        LocalDateTime limiteInferior = fechaHora.minusMinutes(30);
+        LocalDateTime limiteSuperior = fechaHora.plusMinutes(30);
+
+        return reservaRepositorio
+                .findByPersonalIdAndFechaHoraTurnoBetween(
+                        personalId, limiteInferior, limiteSuperior)
+                .stream()
+                .noneMatch(reserva ->
+                        reserva.getFechaHoraTurno().isAfter(limiteInferior)
+                        && reserva.getFechaHoraTurno().isBefore(limiteSuperior));
     }
 }
