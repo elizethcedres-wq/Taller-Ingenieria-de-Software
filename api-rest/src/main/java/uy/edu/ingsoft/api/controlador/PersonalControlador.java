@@ -4,6 +4,8 @@
  */
 package uy.edu.ingsoft.api.controlador;
 
+import uy.edu.ingsoft.api.dto.PersonalEstablecimientoEntrada;
+
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -49,6 +51,35 @@ public class PersonalControlador {
                 servicio.listarPorEstablecimiento(id)
         );
     }
+            
+     @PostMapping("/establecimientos/{id}/personal")
+    public ResponseEntity<PersonalRespuesta> crearEnEstablecimiento(
+            @PathVariable Long id,
+            @Valid @RequestBody PersonalEstablecimientoEntrada entrada
+    ) {
+
+        PersonalEntrada personalEntrada = new PersonalEntrada(
+                entrada.nombre(),
+                entrada.especialidad(),
+                entrada.costoConsulta(),
+                entrada.duracionEstandar(),
+                entrada.estado(),
+                id
+        );
+
+        PersonalRespuesta creado =
+                servicio.crear(personalEntrada);
+
+        URI ubicacion = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/personal/{id}")
+                .buildAndExpand(creado.id())
+                .toUri();
+
+        return ResponseEntity
+                .created(ubicacion)
+                .body(creado);
+    }       
 
     @PostMapping("/personal")
     public ResponseEntity<PersonalRespuesta> crear(
