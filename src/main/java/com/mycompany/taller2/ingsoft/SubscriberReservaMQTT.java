@@ -422,8 +422,7 @@ public class SubscriberReservaMQTT {
             return;
         }
 
-        ReservaTurno reserva =
-                new ReservaTurno();
+        ReservaTurno reserva = new ReservaTurno();
 
         reserva.setEmailSolicitante(
                 dto.getEmailSolicitante()
@@ -442,6 +441,7 @@ public class SubscriberReservaMQTT {
         reserva.setFechaReserva(
                 LocalDate.now()
         );
+        
 
         try {
 

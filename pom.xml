@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>Taller3-IngSoft</artifactId>
+    <artifactId>Taller-IngSoft</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>

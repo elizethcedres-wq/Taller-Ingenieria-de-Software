@@ -18,12 +18,15 @@ import uy.edu.ingsoft.api.dto.ReservaRespuesta;
 import uy.edu.ingsoft.api.excepcion.RecursoNoEncontradoException;
 import uy.edu.ingsoft.api.repositorio.PersonalRepositorio;
 import uy.edu.ingsoft.api.repositorio.ReservaTurnoRepositorio;
+import uy.edu.ingsoft.api.dto.SolicitudReservaMensaje;
+import uy.edu.ingsoft.api.modelo.EstadoTurno;
+import uy.edu.ingsoft.api.modelo.ReservaTurno;
 
 @Service
 public class ReservaServicio {
 
-    private static final String TOPIC_RESERVA =
-            "turnos/reserva";
+    private static final String TOPIC_SOLICITUD_RESERVA =
+            "turnos/solicitudes";
 
     private static final String TOPIC_CANCELAR =
             "turnos/cancelar";
@@ -100,28 +103,44 @@ public class ReservaServicio {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
-    public MensajeRespuesta solicitar(
+    @Transactional
+    public ReservaRespuesta solicitar(
             ReservaEntrada entrada
     ) {
-        if (!personalRepositorio
-                .existsById(entrada.personalId())) {
+        ReservaTurno reserva = new ReservaTurno();
 
-            throw new RecursoNoEncontradoException(
-                    "No existe personal con ID "
-                    + entrada.personalId()
-            );
-        }
+        reserva.setFechaReserva(LocalDate.now());
+        reserva.setEmailSolicitante(
+                entrada.emailSolicitante()
+        );
+        reserva.setTelefonoSolicitante(
+                entrada.telefonoSolicitante()
+        );
+        reserva.setFechaHoraTurno(
+                entrada.fechaHoraTurno()
+        );
+        reserva.setEstablecimientoSolicitadoId(
+                entrada.establecimientoId()
+        );
+        reserva.setPersonalSolicitadoId(
+                entrada.personalId()
+        );
+        reserva.setEstado(EstadoTurno.SOLICITADO);
+
+        ReservaTurno guardada =
+                reservaRepositorio.saveAndFlush(reserva);
+
+        SolicitudReservaMensaje mensaje =
+                new SolicitudReservaMensaje(
+                        guardada.getId()
+                );
 
         mqttPublicador.publicar(
-                TOPIC_RESERVA,
-                entrada
+                TOPIC_SOLICITUD_RESERVA,
+                mensaje
         );
 
-        return new MensajeRespuesta(
-                "Solicitud de reserva aceptada "
-                + "para procesamiento"
-        );
+        return ReservaRespuesta.desde(guardada);
     }
 
     @Transactional(readOnly = true)

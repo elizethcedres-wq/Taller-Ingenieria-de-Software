@@ -5,7 +5,6 @@
 package uy.edu.ingsoft.api.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -20,12 +19,15 @@ public record ReservaEntrada(
         @NotBlank(message = "El teléfono es obligatorio")
         String telefonoSolicitante,
 
+        @NotNull(message = "El ID del establecimiento es obligatorio")
+        @Positive(message = "El ID del establecimiento debe ser positivo")
+        Long establecimientoId,
+
         @NotNull(message = "El ID del personal es obligatorio")
         @Positive(message = "El ID del personal debe ser positivo")
         Long personalId,
 
         @NotNull(message = "La fecha y hora son obligatorias")
-        @Future(message = "La fecha del turno debe ser futura")
         LocalDateTime fechaHoraTurno
 ) {
 }

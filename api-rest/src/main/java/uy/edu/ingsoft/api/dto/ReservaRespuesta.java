@@ -14,16 +14,30 @@ public record ReservaRespuesta(
         LocalDate fechaReserva,
         String emailSolicitante,
         String telefonoSolicitante,
+        Long establecimientoId,
         Long personalId,
         LocalDateTime fechaHoraTurno,
         EstadoTurno estado
 ) {
 
     public static ReservaRespuesta desde(ReservaTurno reserva) {
-        Long personalId = null;
+        Long establecimientoId =
+                reserva.getEstablecimientoSolicitadoId();
+
+        Long personalId =
+                reserva.getPersonalSolicitadoId();
 
         if (reserva.getPersonal() != null) {
             personalId = reserva.getPersonal().getId();
+
+            if (establecimientoId == null
+                    && reserva.getPersonal()
+                            .getEstablecimiento() != null) {
+
+                establecimientoId = reserva.getPersonal()
+                        .getEstablecimiento()
+                        .getId();
+            }
         }
 
         return new ReservaRespuesta(
@@ -31,6 +45,7 @@ public record ReservaRespuesta(
                 reserva.getFechaReserva(),
                 reserva.getEmailSolicitante(),
                 reserva.getTelefonoSolicitante(),
+                establecimientoId,
                 personalId,
                 reserva.getFechaHoraTurno(),
                 reserva.getEstado()

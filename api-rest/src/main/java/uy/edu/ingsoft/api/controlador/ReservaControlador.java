@@ -62,15 +62,15 @@ public class ReservaControlador {
         );
     }
 
-    @PostMapping("/reservas")
-    public ResponseEntity<MensajeRespuesta> solicitar(
-            @Valid
-            @RequestBody ReservaEntrada entrada
-    ) {
-        return ResponseEntity
-                .accepted()
-                .body(servicio.solicitar(entrada));
-    }
+   @PostMapping("/reservas")
+public ResponseEntity<ReservaRespuesta> solicitar(
+        @Valid
+        @RequestBody ReservaEntrada entrada
+) {
+    return ResponseEntity
+            .accepted()
+            .body(servicio.solicitar(entrada));
+}
 
     @DeleteMapping("/reservas/{id}")
     public ResponseEntity<MensajeRespuesta> cancelar(

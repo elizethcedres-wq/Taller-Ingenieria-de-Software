@@ -6,6 +6,7 @@ public class ReservaDTO {
     private String telefonoSolicitante;
     private Long personalId;
     private String fechaHoraTurno;
+     private EstadoTurno estado = EstadoTurno.SOLICITADO;
 
     public String getEmailSolicitante() {
         return emailSolicitante;
@@ -38,4 +39,6 @@ public class ReservaDTO {
     public void setFechaHoraTurno(String fechaHoraTurno) {
         this.fechaHoraTurno = fechaHoraTurno;
     }
+    
+    
 }
