@@ -18,6 +18,7 @@ import logica.Personal;
 import logica.ReservaDTO;
 import logica.ReservaTurno;
 import org.eclipse.paho.client.mqttv3.*;
+import logica.EstadoTurno;
 
 public class SubscriberReservaMQTT {
 
@@ -525,19 +526,20 @@ public class SubscriberReservaMQTT {
 
             em.getTransaction().begin();
 
-            em.remove(reserva);
+            reserva.setEstado(EstadoTurno.CANCELADO);
+            em.merge(reserva);
 
             em.getTransaction().commit();
 
             System.out.println(
-                    "Turno cancelado correctamente."
-            );
+           "Turno cancelado correctamente."
+           );
 
-            System.out.println(
-                    "Reserva eliminada. ID = "
-                    + dto.getReservaId()
-            );
-
+           System.out.println(
+                   "Reserva conservada con estado CANCELADO. ID = "
+                   + dto.getReservaId()
+           );
+        
         } catch (Exception e) {
 
             if (em.getTransaction().isActive()) {
@@ -546,7 +548,7 @@ public class SubscriberReservaMQTT {
 
             System.out.println(
                     "Cancelación rechazada: "
-                    + "no se pudo eliminar la reserva"
+                    + "no se pudo cancelar la reserva"
             );
 
             System.out.println(

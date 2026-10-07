@@ -13,14 +13,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(
-    name = "RESERVATURNO",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            columnNames = {"personal_id", "fechaHoraTurno"}
-        )
-    }
-)
+@Table(name = "RESERVATURNO")
 
 
 public class ReservaTurno {

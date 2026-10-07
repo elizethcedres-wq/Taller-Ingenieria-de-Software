@@ -120,13 +120,43 @@ public class ProcesadorSolicitudes {
                     );
 
                 } else {
-                    validas++;
-
-                    System.out.println(
-                            "Solicitud "
-                            + solicitud.getId()
-                            + " validada correctamente."
+                    Personal personal = em.find(
+                            Personal.class,
+                            solicitud.getPersonalSolicitadoId()
                     );
+
+                    if (estaDisponible(
+                            em,
+                            solicitud,
+                            personal
+                    )) {
+                        solicitud.setPersonal(personal);
+                        solicitud.setEstado(
+                                EstadoTurno.AGENDADO
+                        );
+
+                        validas++;
+
+                        System.out.println(
+                                "Solicitud "
+                                + solicitud.getId()
+                                + " agendada correctamente."
+                        );
+
+                    } else {
+                        solicitud.setEstado(
+                                EstadoTurno
+                                        .RECHAZADO_TURNO_OCUPADO
+                        );
+
+                        rechazadas++;
+
+                        System.out.println(
+                                "Solicitud "
+                                + solicitud.getId()
+                                + " rechazada: horario no disponible."
+                        );
+                    }
                 }
             }
 
@@ -158,6 +188,89 @@ public class ProcesadorSolicitudes {
         }
     }
 
+        private static boolean estaDisponible(
+            EntityManager em,
+            ReservaTurno solicitud,
+            Personal personal
+    ) {
+        if (!Boolean.TRUE.equals(personal.getEstado())) {
+            return false;
+        }
+
+        Establecimiento establecimiento =
+                personal.getEstablecimiento();
+
+        if (establecimiento == null) {
+            return false;
+        }
+
+        int duracion = personal.getDuracionEstandar();
+
+        if (duracion <= 0) {
+            duracion = 30;
+        }
+
+        LocalDateTime inicioSolicitado =
+                solicitud.getFechaHoraTurno();
+
+        LocalDateTime finSolicitado =
+                inicioSolicitado.plusMinutes(duracion);
+
+        if (!inicioSolicitado.toLocalDate().equals(
+                finSolicitado.toLocalDate()
+        )) {
+            return false;
+        }
+
+        if (inicioSolicitado.toLocalTime().isBefore(
+                establecimiento.getHorarioApertura()
+        )) {
+            return false;
+        }
+
+        if (finSolicitado.toLocalTime().isAfter(
+                establecimiento.getHorarioCierre()
+        )) {
+            return false;
+        }
+
+        List<ReservaTurno> agendadas =
+                em.createQuery(
+                        "SELECT r "
+                        + "FROM ReservaTurno r "
+                        + "WHERE r.personal.id = :personalId "
+                        + "AND r.estado = :estado",
+                        ReservaTurno.class
+                )
+                .setParameter(
+                        "personalId",
+                        personal.getId()
+                )
+                .setParameter(
+                        "estado",
+                        EstadoTurno.AGENDADO
+                )
+                .getResultList();
+
+        for (ReservaTurno existente : agendadas) {
+            LocalDateTime inicioExistente =
+                    existente.getFechaHoraTurno();
+
+            LocalDateTime finExistente =
+                    inicioExistente.plusMinutes(duracion);
+
+            boolean seSuperponen =
+                    inicioSolicitado.isBefore(finExistente)
+                    && finSolicitado.isAfter(inicioExistente);
+
+            if (seSuperponen) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
     private static String validarSolicitud(
             EntityManager em,
             ReservaTurno solicitud

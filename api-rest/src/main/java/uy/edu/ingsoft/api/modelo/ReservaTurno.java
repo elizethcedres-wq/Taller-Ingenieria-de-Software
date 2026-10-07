@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
@@ -19,14 +18,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 @Entity
-@Table(
-        name = "RESERVATURNO",
-        uniqueConstraints = {
-            @UniqueConstraint(
-                    columnNames = {"personal_id", "fechaHoraTurno"}
-            )
-        }
-)
+@Table(name = "RESERVATURNO")
+
 public class ReservaTurno {
 
     @Enumerated(EnumType.STRING)
