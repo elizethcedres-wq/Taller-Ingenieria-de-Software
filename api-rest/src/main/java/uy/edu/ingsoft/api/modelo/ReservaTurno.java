@@ -14,6 +14,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 @Table(
@@ -26,6 +29,10 @@ import java.time.LocalDateTime;
 )
 public class ReservaTurno {
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private EstadoTurno estado = EstadoTurno.SOLICITADO;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,6 +47,7 @@ public class ReservaTurno {
     private Personal personal;
 
     public ReservaTurno() {
+        this.estado = EstadoTurno.SOLICITADO;
     }
 
     public ReservaTurno(
@@ -52,6 +60,7 @@ public class ReservaTurno {
         this.emailSolicitante = emailSolicitante;
         this.telefonoSolicitante = telefonoSolicitante;
         this.fechaHoraTurno = fechaHoraTurno;
+        this.estado = EstadoTurno.SOLICITADO;
     }
 
     public Long getId() {
@@ -100,5 +109,14 @@ public class ReservaTurno {
 
     public void setPersonal(Personal personal) {
         this.personal = personal;
+    }
+    
+    
+    public EstadoTurno getEstado() {
+    return estado;
+}
+
+    public void setEstado(EstadoTurno estado) {
+        this.estado = estado;
     }
 }

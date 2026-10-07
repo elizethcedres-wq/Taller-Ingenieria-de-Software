@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package logica;
-import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.*;
@@ -21,7 +20,14 @@ import javax.persistence.*;
         )
     }
 )
+
+
 public class ReservaTurno {
+    
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private EstadoTurno estado = EstadoTurno.SOLICITADO;
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,20 +41,22 @@ public class ReservaTurno {
     @JoinColumn(name = "personal_id")
     private Personal personal;
     
-    public ReservaTurno(){
-        
-    }
     
+   public ReservaTurno() {
+    this.estado = EstadoTurno.SOLICITADO;
+}
+
     public ReservaTurno(
-            LocalDate fR,
-            String eS,
-            String tS,
-            LocalDateTime fHT
-    ){
-        this.fechaReserva = fR;
-        this.emailSolicitante = eS;
-        this.telefonoSolicitante = tS;
-        this.fechaHoraTurno = fHT;
+            LocalDate fechaReserva,
+            String emailSolicitante,
+            String telefonoSolicitante,
+            LocalDateTime fechaHoraTurno
+    ) {
+        this.fechaReserva = fechaReserva;
+        this.emailSolicitante = emailSolicitante;
+        this.telefonoSolicitante = telefonoSolicitante;
+        this.fechaHoraTurno = fechaHoraTurno;
+        this.estado = EstadoTurno.SOLICITADO;
     }
     
     public LocalDate getFechaReserva(){return fechaReserva;}
@@ -69,10 +77,9 @@ public class ReservaTurno {
     public Long getId() {return id;}
     
     
-    
-    
-    
-    
+    public EstadoTurno getEstado() {return estado; }
+    public void setEstado(EstadoTurno estado) {this.estado = estado;}
+     
     
     
 }

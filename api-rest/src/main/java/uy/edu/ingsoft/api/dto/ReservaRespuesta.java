@@ -7,6 +7,7 @@ package uy.edu.ingsoft.api.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import uy.edu.ingsoft.api.modelo.ReservaTurno;
+import uy.edu.ingsoft.api.modelo.EstadoTurno;
 
 public record ReservaRespuesta(
         Long id,
@@ -14,7 +15,8 @@ public record ReservaRespuesta(
         String emailSolicitante,
         String telefonoSolicitante,
         Long personalId,
-        LocalDateTime fechaHoraTurno
+        LocalDateTime fechaHoraTurno,
+        EstadoTurno estado
 ) {
 
     public static ReservaRespuesta desde(ReservaTurno reserva) {
@@ -30,7 +32,8 @@ public record ReservaRespuesta(
                 reserva.getEmailSolicitante(),
                 reserva.getTelefonoSolicitante(),
                 personalId,
-                reserva.getFechaHoraTurno()
+                reserva.getFechaHoraTurno(),
+                reserva.getEstado()
         );
     }
 }
