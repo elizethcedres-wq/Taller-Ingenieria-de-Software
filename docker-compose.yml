@@ -57,6 +57,22 @@ services:
       MAIN_CLASS: com.mycompany.taller2.ingsoft.GeneradorReservasMQTT
     restart: on-failure
 
+  procesador-solicitudes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: procesador_solicitudes
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    environment:
+      MAIN_CLASS: com.mycompany.taller2.ingsoft.ProcesadorSolicitudes
+      VALIDATION_INTERVAL_SECONDS: 10
+    restart: on-failure
+
+
   api-rest:
     build:
       context: ./api-rest

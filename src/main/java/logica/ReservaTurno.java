@@ -14,6 +14,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(
+    name = "RESERVATURNO",
     uniqueConstraints = {
         @UniqueConstraint(
             columnNames = {"personal_id", "fechaHoraTurno"}
@@ -36,6 +37,12 @@ public class ReservaTurno {
     private String emailSolicitante;
     private String telefonoSolicitante;
     private LocalDateTime fechaHoraTurno;
+    
+    @Column(name = "establecimiento_solicitado_id")
+    private Long establecimientoSolicitadoId;
+
+    @Column(name = "personal_solicitado_id")
+    private Long personalSolicitadoId;
     
     @ManyToOne
     @JoinColumn(name = "personal_id")
@@ -75,6 +82,28 @@ public class ReservaTurno {
     public void setFechaHoraTurno(LocalDateTime fHT){this.fechaHoraTurno = fHT;}
     
     public Long getId() {return id;}
+    
+    public Long getEstablecimientoSolicitadoId() {
+        return establecimientoSolicitadoId;
+    }
+
+    public void setEstablecimientoSolicitadoId(
+            Long establecimientoSolicitadoId
+    ) {
+        this.establecimientoSolicitadoId =
+                establecimientoSolicitadoId;
+    }
+
+    public Long getPersonalSolicitadoId() {
+        return personalSolicitadoId;
+    }
+
+    public void setPersonalSolicitadoId(
+            Long personalSolicitadoId
+    ) {
+        this.personalSolicitadoId = personalSolicitadoId;
+    }
+    
     
     
     public EstadoTurno getEstado() {return estado; }
