@@ -159,9 +159,14 @@ public class ProcesadorSolicitudes {
                     }
                 }
             }
-
+            int atendidas = marcarTurnosAtendidos(em);
             em.getTransaction().commit();
 
+            System.out.println(
+                    "Turnos marcados como ATENDIDO: "
+                    + atendidas
+            );
+            
             System.out.println(
                     "Ciclo finalizado. Encontradas: "
                     + solicitudes.size()
@@ -188,6 +193,60 @@ public class ProcesadorSolicitudes {
         }
     }
 
+    
+        private static int marcarTurnosAtendidos(
+            EntityManager em
+    ) {
+        List<ReservaTurno> agendadas =
+                em.createQuery(
+                        "SELECT r "
+                        + "FROM ReservaTurno r "
+                        + "WHERE r.estado = :estado",
+                        ReservaTurno.class
+                )
+                .setParameter(
+                        "estado",
+                        EstadoTurno.AGENDADO
+                )
+                .getResultList();
+
+        int cantidad = 0;
+        LocalDateTime ahora = LocalDateTime.now();
+
+        for (ReservaTurno reserva : agendadas) {
+            int duracion = 30;
+
+            if (reserva.getpersonal() != null
+                    && reserva.getpersonal()
+                            .getDuracionEstandar() > 0) {
+
+                duracion = reserva.getpersonal()
+                        .getDuracionEstandar();
+            }
+
+            LocalDateTime finTurno =
+                    reserva.getFechaHoraTurno()
+                            .plusMinutes(duracion);
+
+            if (!finTurno.isAfter(ahora)) {
+                reserva.setEstado(
+                        EstadoTurno.ATENDIDO
+                );
+
+                cantidad++;
+
+                System.out.println(
+                        "Reserva "
+                        + reserva.getId()
+                        + " marcada como ATENDIDO."
+                );
+            }
+        }
+
+        return cantidad;
+    }
+    
+    
         private static boolean estaDisponible(
             EntityManager em,
             ReservaTurno solicitud,
