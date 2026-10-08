@@ -5,13 +5,15 @@
     <class>logica.Establecimiento</class>
     <class>logica.Personal</class>
     <class>logica.ReservaTurno</class>
+    <class>logica.Cliente</class>
+    <class>logica.Factura</class>
+    <class>logica.ItemFactura</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.url" 
-          value="jdbc:mysql://mysql-db:3306/turnosdb?createDatabaseIfNotExist=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql-db:3306/turnosdb?createDatabaseIfNotExist=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.password" value="root"/>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
       <property name="eclipselink.logging.level" value="FINE"/>
     </properties>
   </persistence-unit>
