@@ -72,6 +72,18 @@ services:
       VALIDATION_INTERVAL_SECONDS: 10
     restart: on-failure
 
+  facturador:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: facturador
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      MAIN_CLASS: com.mycompany.taller2.ingsoft.FacturadorAutomatico
+      BILLING_INTERVAL_SECONDS: 10
+    restart: on-failure
 
   api-rest:
     build:
