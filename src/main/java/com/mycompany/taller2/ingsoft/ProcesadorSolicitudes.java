@@ -1,253 +1,132 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.taller2.ingsoft;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import logica.EstadoTurno;
-import logica.Establecimiento;
-import logica.Personal;
-import logica.ReservaTurno;
-
+import javax.persistence.*;
+import logica.*;
 public class ProcesadorSolicitudes {
-
-    private static final long INTERVALO_PREDETERMINADO = 60;
-
     public static void main(String[] args) {
-        long intervaloSegundos = obtenerIntervalo();
-
         EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory(
-                        "turnosPU"
-                );
-
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(emf::close)
-        );
-
-        System.out.println(
-                "Procesador de solicitudes iniciado."
-        );
-
-        System.out.println(
-                "Intervalo: "
-                + intervaloSegundos
-                + " segundos."
-        );
-
+                Persistence.createEntityManagerFactory("turnosPU");
+        final EventosTurnosMQTT eventos;
+        try {
+            eventos = new EventosTurnosMQTT("iis-procesador-parte4", "turnos/solicitudes");
+        } catch (org.eclipse.paho.client.mqttv3.MqttException e) {
+            e.printStackTrace();
+            emf.close();
+            System.exit(1);
+            return;
+        }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try { eventos.close(); } catch (Exception e) { e.printStackTrace(); }
+            if (emf.isOpen()) emf.close();
+        }));
+        long intervalo = obtenerIntervalo();
+        System.out.println("Intervalo: " + intervalo + " segundos.");
         while (!Thread.currentThread().isInterrupted()) {
-            procesarSolicitudes(emf);
-
+            java.util.Set<Long> avisadas = eventos.recibirPendientes();
+            System.out.println("Eventos del ciclo: " + avisadas);
+            procesarSolicitudes(emf, avisadas, eventos);
             try {
-                Thread.sleep(intervaloSegundos * 1000);
-            } catch (InterruptedException excepcion) {
+                Thread.sleep(intervalo * 1000);
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
     }
-
     private static long obtenerIntervalo() {
-        String valor = System.getenv(
-                "VALIDATION_INTERVAL_SECONDS"
-        );
-
-        if (valor == null || valor.isBlank()) {
-            return INTERVALO_PREDETERMINADO;
-        }
-
+        String valor = System.getenv("VALIDATION_INTERVAL_SECONDS");
         try {
-            long intervalo = Long.parseLong(valor);
-
-            if (intervalo <= 0) {
-                return INTERVALO_PREDETERMINADO;
-            }
-
-            return intervalo;
-
-        } catch (NumberFormatException excepcion) {
-            return INTERVALO_PREDETERMINADO;
+            long n = Long.parseLong(valor);
+            return n > 0 ? n : 60;
+        } catch (NumberFormatException e) {
+            return 60;
         }
     }
-
-    private static void procesarSolicitudes(
-            EntityManagerFactory emf
-    ) {
+    private static void procesarSolicitudes(EntityManagerFactory emf,
+            java.util.Set<Long> avisadas, EventosTurnosMQTT eventos) {
         EntityManager em = emf.createEntityManager();
-
         try {
             em.getTransaction().begin();
-
-            List<ReservaTurno> solicitudes =
-                    em.createQuery(
-                            "SELECT r "
-                            + "FROM ReservaTurno r "
-                            + "WHERE r.estado = :estado",
-                            ReservaTurno.class
-                    )
-                    .setParameter(
-                            "estado",
-                            EstadoTurno.SOLICITADO
-                    )
-                    .getResultList();
-
-            int rechazadas = 0;
-            int validas = 0;
-
-            for (ReservaTurno solicitud : solicitudes) {
-                String error = validarSolicitud(
-                        em,
-                        solicitud
-                );
-
-                if (error != null) {
-                    solicitud.setEstado(
-                            EstadoTurno
-                                    .RECHAZADO_SOLICITUD_NO_VALIDA
-                    );
-
-                    rechazadas++;
-
-                    System.out.println(
-                            "Solicitud "
-                            + solicitud.getId()
-                            + " rechazada: "
-                            + error
-                    );
-
-                } else {
-                    Personal personal = em.find(
-                            Personal.class,
-                            solicitud.getPersonalSolicitadoId()
-                    );
-
-                    if (estaDisponible(
-                            em,
-                            solicitud,
-                            personal
-                    )) {
-                        solicitud.setPersonal(personal);
-                        solicitud.setEstado(
-                                EstadoTurno.AGENDADO
-                        );
-
-                        validas++;
-
-                        System.out.println(
-                                "Solicitud "
-                                + solicitud.getId()
-                                + " agendada correctamente."
-                        );
-
-                    } else {
-                        solicitud.setEstado(
-                                EstadoTurno
-                                        .RECHAZADO_TURNO_OCUPADO
-                        );
-
-                        rechazadas++;
-
-                        System.out.println(
-                                "Solicitud "
-                                + solicitud.getId()
-                                + " rechazada: horario no disponible."
-                        );
-                    }
+            java.util.Map<Long, ReservaTurno> lote =
+                    new java.util.LinkedHashMap<>();
+            for (Long id : avisadas) {
+                ReservaTurno r = em.find(ReservaTurno.class, id);
+                if (r != null && r.getEstado() == EstadoTurno.SOLICITADO) {
+                    lote.put(id, r);
                 }
             }
-            int atendidas = marcarTurnosAtendidos(em);
-            em.getTransaction().commit();
-
-            System.out.println(
-                    "Turnos marcados como ATENDIDO: "
-                    + atendidas
-            );
-            
-            System.out.println(
-                    "Ciclo finalizado. Encontradas: "
-                    + solicitudes.size()
-                    + ", válidas: "
-                    + validas
-                    + ", rechazadas: "
-                    + rechazadas
-            );
-
-        } catch (Exception excepcion) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+            List<ReservaTurno> recuperadas = em.createQuery(
+                    "SELECT r FROM ReservaTurno r "
+                    + "WHERE r.estado = :estado ORDER BY r.id",
+                    ReservaTurno.class)
+                    .setParameter("estado", EstadoTurno.SOLICITADO)
+                    .getResultList();
+            for (ReservaTurno r : recuperadas) lote.putIfAbsent(r.getId(), r);
+            List<ReservaTurno> solicitudes = new java.util.ArrayList<>(lote.values());
+            solicitudes.sort(java.util.Comparator.comparing(ReservaTurno::getId));
+            for (ReservaTurno solicitud : solicitudes) {
+                em.refresh(solicitud, javax.persistence.LockModeType.PESSIMISTIC_WRITE);
+                if (solicitud.getEstado() != EstadoTurno.SOLICITADO) continue;
+                String error = validarSolicitud(em, solicitud);
+                if (error != null) {
+                    solicitud.setEstado(EstadoTurno.RECHAZADO_SOLICITUD_NO_VALIDA);
+                    System.out.println("Rechazada " + solicitud.getId() + ": " + error);
+                    continue;
+                }
+                Personal personal = em.find(Personal.class,
+                        solicitud.getPersonalSolicitadoId());
+                if (estaDisponible(em, solicitud, personal)) {
+                    solicitud.setPersonal(personal);
+                    solicitud.setEstado(EstadoTurno.AGENDADO);
+                    em.flush();
+                } else {
+                    solicitud.setEstado(EstadoTurno.RECHAZADO_TURNO_OCUPADO);
+                }
+                System.out.println("Reserva " + solicitud.getId()
+                        + " -> " + solicitud.getEstado());
             }
-
-            System.err.println(
-                    "Error procesando solicitudes: "
-                    + excepcion.getMessage()
-            );
-
-            excepcion.printStackTrace();
-
+            List<Long> atendidas = marcarTurnosAtendidos(em);
+            em.getTransaction().commit();
+            System.out.println("Atendidas: " + atendidas.size());
+            for (Long id : atendidas) {
+                try {
+                    eventos.publicar("turnos/atendidos", id);
+                } catch (org.eclipse.paho.client.mqttv3.MqttException e) {
+                    System.err.println("Evento pendiente " + id + ": " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
     }
-
-    
-        private static int marcarTurnosAtendidos(
-            EntityManager em
-    ) {
-        List<ReservaTurno> agendadas =
-                em.createQuery(
-                        "SELECT r "
-                        + "FROM ReservaTurno r "
-                        + "WHERE r.estado = :estado",
-                        ReservaTurno.class
-                )
-                .setParameter(
-                        "estado",
-                        EstadoTurno.AGENDADO
-                )
-                .getResultList();
-
-        int cantidad = 0;
-        LocalDateTime ahora = LocalDateTime.now();
-
-        for (ReservaTurno reserva : agendadas) {
-            int duracion = 30;
-
-            if (reserva.getpersonal() != null
-                    && reserva.getpersonal()
-                            .getDuracionEstandar() > 0) {
-
-                duracion = reserva.getpersonal()
-                        .getDuracionEstandar();
-            }
-
-            LocalDateTime finTurno =
-                    reserva.getFechaHoraTurno()
-                            .plusMinutes(duracion);
-
-            if (!finTurno.isAfter(ahora)) {
-                reserva.setEstado(
-                        EstadoTurno.ATENDIDO
-                );
-
-                cantidad++;
-
-                System.out.println(
-                        "Reserva "
-                        + reserva.getId()
-                        + " marcada como ATENDIDO."
-                );
-            }
+private static List<Long> marcarTurnosAtendidos(EntityManager em) {
+    List<ReservaTurno> agendadas = em.createQuery(
+            "SELECT r FROM ReservaTurno r WHERE r.estado = :estado",
+            ReservaTurno.class)
+            .setParameter("estado", EstadoTurno.AGENDADO)
+            .getResultList();
+    List<Long> atendidas = new java.util.ArrayList<>();
+    LocalDateTime ahora = LocalDateTime.now();
+    for (ReservaTurno reserva : agendadas) {
+        em.refresh(reserva, javax.persistence.LockModeType.PESSIMISTIC_WRITE);
+        if (reserva.getEstado() != EstadoTurno.AGENDADO) continue;
+        int duracion = 30;
+        if (reserva.getpersonal() != null
+                && reserva.getpersonal().getDuracionEstandar() > 0) {
+            duracion = reserva.getpersonal().getDuracionEstandar();
         }
-
-        return cantidad;
+        LocalDateTime fin = reserva.getFechaHoraTurno().plusMinutes(duracion);
+        if (!fin.isAfter(ahora)) {
+            reserva.setEstado(EstadoTurno.ATENDIDO);
+            atendidas.add(reserva.getId());
+        }
     }
-    
-    
-        private static boolean estaDisponible(
+    return atendidas;
+}
+    private static boolean estaDisponible(
             EntityManager em,
             ReservaTurno solicitud,
             Personal personal
@@ -255,133 +134,103 @@ public class ProcesadorSolicitudes {
         if (!Boolean.TRUE.equals(personal.getEstado())) {
             return false;
         }
-
         Establecimiento establecimiento =
                 personal.getEstablecimiento();
-
         if (establecimiento == null) {
             return false;
         }
-
         int duracion = personal.getDuracionEstandar();
-
         if (duracion <= 0) {
             duracion = 30;
         }
-
         LocalDateTime inicioSolicitado =
                 solicitud.getFechaHoraTurno();
-
         LocalDateTime finSolicitado =
                 inicioSolicitado.plusMinutes(duracion);
-
         if (!inicioSolicitado.toLocalDate().equals(
                 finSolicitado.toLocalDate()
         )) {
             return false;
         }
-
         if (inicioSolicitado.toLocalTime().isBefore(
                 establecimiento.getHorarioApertura()
         )) {
             return false;
         }
-
         if (finSolicitado.toLocalTime().isAfter(
                 establecimiento.getHorarioCierre()
         )) {
             return false;
         }
-
         List<ReservaTurno> agendadas =
                 em.createQuery(
                         "SELECT r "
                         + "FROM ReservaTurno r "
                         + "WHERE r.personal.id = :personalId "
-                        + "AND r.estado = :estado",
+                        + "AND r.estado IN :estados",
                         ReservaTurno.class
                 )
                 .setParameter(
                         "personalId",
                         personal.getId()
                 )
-                .setParameter(
-                        "estado",
-                        EstadoTurno.AGENDADO
-                )
+                .setParameter("estados", List.of(EstadoTurno.AGENDADO,
+                        EstadoTurno.ATENDIDO, EstadoTurno.FACTURADO))
                 .getResultList();
-
         for (ReservaTurno existente : agendadas) {
             LocalDateTime inicioExistente =
                     existente.getFechaHoraTurno();
-
             LocalDateTime finExistente =
                     inicioExistente.plusMinutes(duracion);
-
             boolean seSuperponen =
                     inicioSolicitado.isBefore(finExistente)
                     && finSolicitado.isAfter(inicioExistente);
-
             if (seSuperponen) {
                 return false;
             }
         }
-
         return true;
     }
-    
     private static String validarSolicitud(
             EntityManager em,
             ReservaTurno solicitud
     ) {
         Long establecimientoId =
                 solicitud.getEstablecimientoSolicitadoId();
-
         Long personalId =
                 solicitud.getPersonalSolicitadoId();
-
         if (establecimientoId == null) {
             return "no se indicó establecimiento";
         }
-
         if (personalId == null) {
             return "no se indicó personal";
         }
-
         Establecimiento establecimiento =
                 em.find(
                         Establecimiento.class,
                         establecimientoId
                 );
-
         if (establecimiento == null) {
             return "el establecimiento no existe";
         }
-
         Personal personal =
                 em.find(Personal.class, personalId);
-
         if (personal == null) {
             return "el personal no existe";
         }
-
         if (personal.getEstablecimiento() == null
                 || !establecimientoId.equals(
                         personal.getEstablecimiento().getId()
                 )) {
-
             return "el personal no trabaja en "
                     + "el establecimiento indicado";
         }
-
         if (solicitud.getFechaHoraTurno() == null
                 || !solicitud.getFechaHoraTurno()
                         .isAfter(LocalDateTime.now())) {
-
             return "la fecha y hora del turno "
                     + "ya transcurrieron";
         }
-
         return null;
     }
 }

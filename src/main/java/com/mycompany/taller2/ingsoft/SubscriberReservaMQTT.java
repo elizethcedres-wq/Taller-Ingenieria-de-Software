@@ -526,6 +526,20 @@ public class SubscriberReservaMQTT {
 
             em.getTransaction().begin();
 
+            em.refresh(reserva, javax.persistence.LockModeType.PESSIMISTIC_WRITE);
+            EstadoTurno actual = reserva.getEstado();
+            if (actual == EstadoTurno.CANCELADO) {
+                em.getTransaction().commit();
+                System.out.println("La reserva ya estaba cancelada.");
+                return;
+            }
+            if (actual != EstadoTurno.SOLICITADO
+                    && actual != EstadoTurno.AGENDADO) {
+                em.getTransaction().rollback();
+                System.out.println("No se cancela una reserva en estado " + actual);
+                return;
+            }
+
             reserva.setEstado(EstadoTurno.CANCELADO);
             em.merge(reserva);
 

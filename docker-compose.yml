@@ -40,6 +40,7 @@ services:
     environment:
       BROKER_URL: tcp://mosquitto:1883
       MAIN_CLASS: com.mycompany.taller2.ingsoft.SubscriberReservaMQTT
+      TZ: America/Montevideo
     restart: on-failure
 
   app-generador:
@@ -55,6 +56,7 @@ services:
     environment:
       BROKER_URL: tcp://mosquitto:1883
       MAIN_CLASS: com.mycompany.taller2.ingsoft.GeneradorReservasMQTT
+      TZ: America/Montevideo
     restart: on-failure
 
   procesador-solicitudes:
@@ -69,7 +71,9 @@ services:
         condition: service_started
     environment:
       MAIN_CLASS: com.mycompany.taller2.ingsoft.ProcesadorSolicitudes
-      VALIDATION_INTERVAL_SECONDS: 10
+      VALIDATION_INTERVAL_SECONDS: "60"
+      BROKER_URL: tcp://mosquitto:1883
+      TZ: America/Montevideo
     restart: on-failure
 
   facturador:
@@ -80,9 +84,13 @@ services:
     depends_on:
       mysql-db:
         condition: service_healthy
+      mosquitto:
+        condition: service_started
     environment:
       MAIN_CLASS: com.mycompany.taller2.ingsoft.FacturadorAutomatico
-      BILLING_INTERVAL_SECONDS: 10
+      BILLING_INTERVAL_SECONDS: "300"
+      BROKER_URL: tcp://mosquitto:1883
+      TZ: America/Montevideo
     restart: on-failure
 
   api-rest:
@@ -100,6 +108,7 @@ services:
       DB_USER: root
       DB_PASSWORD: root
       BROKER_URL: tcp://mosquitto:1883
+      TZ: America/Montevideo
     ports:
       - "8080:8080"
     restart: on-failure

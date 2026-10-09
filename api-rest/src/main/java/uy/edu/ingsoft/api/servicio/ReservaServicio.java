@@ -195,6 +195,10 @@ public class ReservaServicio {
                 .findByPersonalIdAndFechaHoraTurnoBetween(
                         personalId, limiteInferior, limiteSuperior)
                 .stream()
+                .filter(reserva ->
+                        reserva.getEstado() == EstadoTurno.AGENDADO
+                        || reserva.getEstado() == EstadoTurno.ATENDIDO
+                        || reserva.getEstado() == EstadoTurno.FACTURADO)
                 .noneMatch(reserva ->
                         reserva.getFechaHoraTurno().isAfter(limiteInferior)
                         && reserva.getFechaHoraTurno().isBefore(limiteSuperior));
