@@ -1,0 +1,3300 @@
+{
+	"info": {
+		"_postman_id": "d7e01ab3-fcab-43a1-898f-0854298896ac",
+		"name": "Sistema de Reserva de Turnos",
+		"description": "API REST para administrar establecimientos, personal y reservas.\nLa creación y cancelación de reservas se procesan de forma asíncrona\nmediante Eclipse Mosquitto.\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "58847932",
+		"_collection_link": "https://elizeth-cedres-5029610.postman.co/workspace/Elizeth-Cedres's-Workspace~8d0a21e2-b30f-4959-8f09-b2173a666512/collection/58847932-d7e01ab3-fcab-43a1-898f-0854298896ac?action=share&source=collection_link&creator=58847932"
+	},
+	"item": [
+		{
+			"name": "personal",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "disponibilidad",
+							"item": [
+								{
+									"name": "Consultar disponibilidad de un profesional",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id/disponibilidad?fechaHora=2026-09-30T11:00:00",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id",
+												"disponibilidad"
+											],
+											"query": [
+												{
+													"key": "fechaHora",
+													"value": "2026-09-30T11:00:00",
+													"description": "Fecha y hora local del turno a consultar."
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3997",
+													"description": "Identificador del recurso"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Resultado de disponibilidad",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/personal/:id/disponibilidad?fechaHora=2026-09-30T11:00:00",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"personal",
+														":id",
+														"disponibilidad"
+													],
+													"query": [
+														{
+															"key": "fechaHora",
+															"value": "2026-09-30T11:00:00",
+															"description": "Fecha y hora local del turno a consultar."
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"personalId\": 4564,\n  \"fechaHoraTurno\": \"string\",\n  \"disponible\": true\n}"
+										},
+										{
+											"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/personal/:id/disponibilidad?fechaHora=2026-09-30T11:00:00",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"personal",
+														":id",
+														"disponibilidad"
+													],
+													"query": [
+														{
+															"key": "fechaHora",
+															"value": "2026-09-30T11:00:00",
+															"description": "Fecha y hora local del turno a consultar."
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										},
+										{
+											"name": "El recurso solicitado no existe",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/personal/:id/disponibilidad?fechaHora=2026-09-30T11:00:00",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"personal",
+														":id",
+														"disponibilidad"
+													],
+													"query": [
+														{
+															"key": "fechaHora",
+															"value": "2026-09-30T11:00:00",
+															"description": "Fecha y hora local del turno a consultar."
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										},
+										{
+											"name": "Error interno del servidor",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/personal/:id/disponibilidad?fechaHora=2026-09-30T11:00:00",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"personal",
+														":id",
+														"disponibilidad"
+													],
+													"query": [
+														{
+															"key": "fechaHora",
+															"value": "2026-09-30T11:00:00",
+															"description": "Fecha y hora local del turno a consultar."
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "reservas",
+							"item": [
+								{
+									"name": "Consultar reservas de un integrante del personal",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id/reservas?fecha=2026-09-25",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id",
+												"reservas"
+											],
+											"query": [
+												{
+													"key": "fecha",
+													"value": "2026-09-25",
+													"description": "Fecha por la que se desea filtrar"
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3997",
+													"description": "Identificador del recurso"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Lista de reservas",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/personal/:id/reservas?fecha=2026-09-25",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"personal",
+														":id",
+														"reservas"
+													],
+													"query": [
+														{
+															"key": "fecha",
+															"value": "2026-09-25",
+															"description": "Fecha por la que se desea filtrar"
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"id\": 10,\n    \"fechaReserva\": \"2026-09-19\",\n    \"emailSolicitante\": \"cliente@correo.com\",\n    \"telefonoSolicitante\": \"098765432\",\n    \"establecimientoId\": 2,\n    \"personalId\": 1,\n    \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n    \"estado\": \"SOLICITADO\"\n  },\n  {\n    \"id\": 10,\n    \"fechaReserva\": \"2026-09-19\",\n    \"emailSolicitante\": \"cliente@correo.com\",\n    \"telefonoSolicitante\": \"098765432\",\n    \"establecimientoId\": 2,\n    \"personalId\": 1,\n    \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n    \"estado\": \"SOLICITADO\"\n  }\n]"
+										},
+										{
+											"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/personal/:id/reservas?fecha=2026-09-25",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"personal",
+														":id",
+														"reservas"
+													],
+													"query": [
+														{
+															"key": "fecha",
+															"value": "2026-09-25",
+															"description": "Fecha por la que se desea filtrar"
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										},
+										{
+											"name": "El recurso solicitado no existe",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/personal/:id/reservas?fecha=2026-09-25",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"personal",
+														":id",
+														"reservas"
+													],
+													"query": [
+														{
+															"key": "fecha",
+															"value": "2026-09-25",
+															"description": "Fecha por la que se desea filtrar"
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										},
+										{
+											"name": "Error interno del servidor",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/personal/:id/reservas?fecha=2026-09-25",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"personal",
+														":id",
+														"reservas"
+													],
+													"query": [
+														{
+															"key": "fecha",
+															"value": "2026-09-25",
+															"description": "Fecha por la que se desea filtrar"
+														}
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Obtener personal por ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/personal/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3997",
+											"description": "Identificador del recurso"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Personal encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1,\n  \"id\": 1\n}"
+								},
+								{
+									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "El recurso solicitado no existe",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "Error interno del servidor",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Actualizar personal",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/personal/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3997",
+											"description": "Identificador del recurso"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Personal actualizado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1,\n  \"id\": 1\n}"
+								},
+								{
+									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "El recurso solicitado no existe",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "Error interno del servidor",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Eliminar personal",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/personal/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3997",
+											"description": "Identificador del recurso"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Personal eliminado",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "El recurso solicitado no existe",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "No se puede eliminar porque tiene reservas asociadas",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "Error interno del servidor",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/personal/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"personal",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Listar todo el personal",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/personal",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"personal"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de personal",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/personal",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"nombre\": \"Ana Pereira\",\n    \"especialidad\": \"Medicina general\",\n    \"costoConsulta\": 1800,\n    \"duracionEstandar\": 30,\n    \"estado\": true,\n    \"establecimientoId\": 1,\n    \"id\": 1\n  },\n  {\n    \"nombre\": \"Ana Pereira\",\n    \"especialidad\": \"Medicina general\",\n    \"costoConsulta\": 1800,\n    \"duracionEstandar\": 30,\n    \"estado\": true,\n    \"establecimientoId\": 1,\n    \"id\": 1\n  }\n]"
+						},
+						{
+							"name": "Error interno del servidor",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/personal",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear personal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/personal",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"personal"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Personal creado correctamente",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/personal",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1,\n  \"id\": 1\n}"
+						},
+						{
+							"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/personal",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						},
+						{
+							"name": "El establecimiento indicado no existe",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/personal",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						},
+						{
+							"name": "Error interno del servidor",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Ana Pereira\",\n  \"especialidad\": \"Medicina general\",\n  \"costoConsulta\": 1800,\n  \"duracionEstandar\": 30,\n  \"estado\": true,\n  \"establecimientoId\": 1\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/personal",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"personal"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "establecimientos",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "personal",
+							"item": [
+								{
+									"name": "Listar el personal de un establecimiento",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id/personal",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id",
+												"personal"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3997",
+													"description": "Identificador del recurso"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Lista de personal",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/establecimientos/:id/personal",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"establecimientos",
+														":id",
+														"personal"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"nombre\": \"Ana Pereira\",\n    \"especialidad\": \"Medicina general\",\n    \"costoConsulta\": 1800,\n    \"duracionEstandar\": 30,\n    \"estado\": true,\n    \"establecimientoId\": 1,\n    \"id\": 1\n  },\n  {\n    \"nombre\": \"Ana Pereira\",\n    \"especialidad\": \"Medicina general\",\n    \"costoConsulta\": 1800,\n    \"duracionEstandar\": 30,\n    \"estado\": true,\n    \"establecimientoId\": 1,\n    \"id\": 1\n  }\n]"
+										},
+										{
+											"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/establecimientos/:id/personal",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"establecimientos",
+														":id",
+														"personal"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										},
+										{
+											"name": "El recurso solicitado no existe",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/establecimientos/:id/personal",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"establecimientos",
+														":id",
+														"personal"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										},
+										{
+											"name": "Error interno del servidor",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/establecimientos/:id/personal",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"establecimientos",
+														":id",
+														"personal"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Obtener un establecimiento por ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/establecimientos/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"establecimientos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3997",
+											"description": "Identificador del recurso"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Establecimiento encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\",\n  \"id\": 1\n}"
+								},
+								{
+									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "El recurso solicitado no existe",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "Error interno del servidor",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Actualizar un establecimiento",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/establecimientos/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"establecimientos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3997",
+											"description": "Identificador del recurso"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Establecimiento actualizado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\",\n  \"id\": 1\n}"
+								},
+								{
+									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "El recurso solicitado no existe",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "Error interno del servidor",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Eliminar un establecimiento",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/establecimientos/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"establecimientos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3997",
+											"description": "Identificador del recurso"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Establecimiento eliminado",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "El recurso solicitado no existe",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "No se puede eliminar porque tiene personal asociado",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "Error interno del servidor",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/establecimientos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"establecimientos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Listar establecimientos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Estado HTTP 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"La respuesta es una lista\", function () {",
+									"    const respuesta = pm.response.json();",
+									"    pm.expect(respuesta).to.be.an(\"array\");",
+									"});",
+									"",
+									"pm.test(\"La lista contiene establecimientos\", function () {",
+									"    const respuesta = pm.response.json();",
+									"    pm.expect(respuesta.length).to.be.above(0);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/establecimientos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"establecimientos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de establecimientos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/establecimientos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"establecimientos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"nombreComercial\": \"Clínica Central\",\n    \"direccion\": \"Avenida Artigas 1234\",\n    \"telefono\": \"099123456\",\n    \"correo\": \"contacto@clinicacentral.uy\",\n    \"horarioApertura\": \"08:00:00\",\n    \"horarioCierre\": \"18:00:00\",\n    \"id\": 1\n  },\n  {\n    \"nombreComercial\": \"Clínica Central\",\n    \"direccion\": \"Avenida Artigas 1234\",\n    \"telefono\": \"099123456\",\n    \"correo\": \"contacto@clinicacentral.uy\",\n    \"horarioApertura\": \"08:00:00\",\n    \"horarioCierre\": \"18:00:00\",\n    \"id\": 1\n  }\n]"
+						},
+						{
+							"name": "Error interno del servidor",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/establecimientos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"establecimientos"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear un establecimiento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/establecimientos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"establecimientos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Establecimiento creado correctamente",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/establecimientos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"establecimientos"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\",\n  \"id\": 1\n}"
+						},
+						{
+							"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/establecimientos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"establecimientos"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						},
+						{
+							"name": "Error interno del servidor",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombreComercial\": \"Clínica Central\",\n  \"direccion\": \"Avenida Artigas 1234\",\n  \"telefono\": \"099123456\",\n  \"correo\": \"contacto@clinicacentral.uy\",\n  \"horarioApertura\": \"08:00:00\",\n  \"horarioCierre\": \"18:00:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/establecimientos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"establecimientos"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "reservas",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Obtener una reserva por ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Estado HTTP 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Corresponde a la reserva creada\", function () {",
+											"    const respuesta = pm.response.json();",
+											"    const reservaId = Number(",
+											"        pm.collectionVariables.get(\"reservaId\")",
+											"    );",
+											"",
+											"    pm.expect(respuesta.id).to.eql(reservaId);",
+											"});",
+											"",
+											"pm.test(\"La reserva quedó CANCELADA\", function () {",
+											"    const respuesta = pm.response.json();",
+											"    pm.expect(respuesta.estado).to.eql(\"CANCELADO\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/{{reservaId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										"{{reservaId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Reserva encontrada",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/reservas/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"reservas",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 10,\n  \"fechaReserva\": \"2026-09-19\",\n  \"emailSolicitante\": \"cliente@correo.com\",\n  \"telefonoSolicitante\": \"098765432\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n  \"estado\": \"SOLICITADO\"\n}"
+								},
+								{
+									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/reservas/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"reservas",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "El recurso solicitado no existe",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/reservas/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"reservas",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "Error interno del servidor",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/reservas/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"reservas",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Solicitar la cancelación de una reserva",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Estado HTTP 202\", function () {",
+											"    pm.response.to.have.status(202);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/{{reservaId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										"{{reservaId}}"
+									]
+								},
+								"description": "Solicita la cancelación asíncrona mediante el topic turnos/cancelar.\nLa reserva no se elimina físicamente y pasa al estado CANCELADO.\n"
+							},
+							"response": [
+								{
+									"name": "Cancelación aceptada para procesamiento",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/reservas/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"reservas",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Accepted",
+									"code": 202,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"mensaje\": \"Solicitud aceptada para procesamiento\"\n}"
+								},
+								{
+									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/reservas/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"reservas",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "El recurso solicitado no existe",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/reservas/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"reservas",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								},
+								{
+									"name": "No se pudo conectar con Mosquitto",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/reservas/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"reservas",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Service Unavailable",
+									"code": 503,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Listar reservas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/reservas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reservas"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de reservas persistidas",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 10,\n    \"fechaReserva\": \"2026-09-19\",\n    \"emailSolicitante\": \"cliente@correo.com\",\n    \"telefonoSolicitante\": \"098765432\",\n    \"establecimientoId\": 2,\n    \"personalId\": 1,\n    \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n    \"estado\": \"SOLICITADO\"\n  },\n  {\n    \"id\": 10,\n    \"fechaReserva\": \"2026-09-19\",\n    \"emailSolicitante\": \"cliente@correo.com\",\n    \"telefonoSolicitante\": \"098765432\",\n    \"establecimientoId\": 2,\n    \"personalId\": 1,\n    \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n    \"estado\": \"SOLICITADO\"\n  }\n]"
+						},
+						{
+							"name": "Error interno del servidor",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Solicitar una nueva reserva",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Estado HTTP 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"La respuesta contiene el error 404\", function () {",
+									"    const respuesta = pm.response.json();",
+									"    pm.expect(respuesta.estado).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Indica que la reserva no existe\", function () {",
+									"    const respuesta = pm.response.json();",
+									"    pm.expect(respuesta.mensaje)",
+									"        .to.include(\"No existe una reserva\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"emailSolicitante\": \"postman-cancelacion@correo.com\",\n  \"telefonoSolicitante\": \"099600002\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2027-02-15T14:15:00\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reservas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reservas"
+							]
+						},
+						"description": "Registra la solicitud con estado SOLICITADO.\nLa validación del establecimiento, el personal, la fecha y la\ndisponibilidad se realiza posteriormente de forma asíncrona.\n"
+					},
+					"response": [
+						{
+							"name": "Solicitud registrada para procesamiento asíncrono",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"emailSolicitante\": \"cliente@correo.com\",\n  \"telefonoSolicitante\": \"098765432\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2026-09-25T10:30:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/reservas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 10,\n  \"fechaReserva\": \"2026-09-19\",\n  \"emailSolicitante\": \"cliente@correo.com\",\n  \"telefonoSolicitante\": \"098765432\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n  \"estado\": \"SOLICITADO\"\n}"
+						},
+						{
+							"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"emailSolicitante\": \"cliente@correo.com\",\n  \"telefonoSolicitante\": \"098765432\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2026-09-25T10:30:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/reservas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						},
+						{
+							"name": "No se pudo publicar la notificación de la solicitud",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"emailSolicitante\": \"cliente@correo.com\",\n  \"telefonoSolicitante\": \"098765432\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2026-09-25T10:30:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/reservas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas"
+									]
+								}
+							},
+							"status": "Service Unavailable",
+							"code": 503,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api"
+		},
+		{
+			"key": "reservaId",
+			"value": ""
+		}
+	]
+}
