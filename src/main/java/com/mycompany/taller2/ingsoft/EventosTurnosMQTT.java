@@ -5,7 +5,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
 public final class EventosTurnosMQTT implements AutoCloseable {
+
     private final MqttClient cliente;
     private final String topic;
     private final Gson gson = new Gson();
@@ -13,14 +15,22 @@ public final class EventosTurnosMQTT implements AutoCloseable {
     private static final class Evento {
         private Long reservaId;
 
-        private Evento(Long reservaId) {
+        public Evento() {
+        }
+
+        public Evento(Long reservaId) {
             this.reservaId = reservaId;
         }
 
-        private Long reservaId() {
+        public Long getReservaId() {
             return reservaId;
         }
+
+        public void setReservaId(Long reservaId) {
+            this.reservaId = reservaId;
+        }
     }
+
     public EventosTurnosMQTT(String id, String topic) throws MqttException {
         this.topic = topic;
         String broker = System.getenv("BROKER_URL");
@@ -48,14 +58,14 @@ public final class EventosTurnosMQTT implements AutoCloseable {
                     String json = new String(
                             mensaje.getPayload(), StandardCharsets.UTF_8);
                     Evento evento = gson.fromJson(json, Evento.class);
-                    if (evento == null || evento.reservaId() == null
-                            || evento.reservaId() <= 0) {
+                    if (evento == null || evento.getReservaId() == null
+                            || evento.getReservaId() <= 0) {
                         System.err.println("Evento invalido en " + origen);
                         return;
                     }
-                    pendientes.add(evento.reservaId());
+                    pendientes.add(evento.getReservaId());
                     System.out.println("Evento recibido " + origen
-                            + " reservaId=" + evento.reservaId());
+                            + " reservaId=" + evento.getReservaId());
                 } catch (RuntimeException e) {
                     System.err.println("JSON invalido: " + e.getMessage());
                 }
