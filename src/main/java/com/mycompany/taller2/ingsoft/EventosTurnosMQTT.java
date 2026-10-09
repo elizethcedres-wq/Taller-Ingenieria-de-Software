@@ -10,7 +10,17 @@ public final class EventosTurnosMQTT implements AutoCloseable {
     private final String topic;
     private final Gson gson = new Gson();
     private final Set<Long> pendientes = ConcurrentHashMap.newKeySet();
-    private record Evento(Long reservaId) {}
+    private static final class Evento {
+        private Long reservaId;
+
+        private Evento(Long reservaId) {
+            this.reservaId = reservaId;
+        }
+
+        private Long reservaId() {
+            return reservaId;
+        }
+    }
     public EventosTurnosMQTT(String id, String topic) throws MqttException {
         this.topic = topic;
         String broker = System.getenv("BROKER_URL");
