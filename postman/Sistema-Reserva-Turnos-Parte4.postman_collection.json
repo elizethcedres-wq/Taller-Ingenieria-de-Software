@@ -2570,519 +2570,66 @@
 			"name": "reservas",
 			"item": [
 				{
-					"name": "{id}",
-					"item": [
-						{
-							"name": "Obtener una reserva por ID",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Estado HTTP 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Corresponde a la reserva creada\", function () {",
-											"    const respuesta = pm.response.json();",
-											"    const reservaId = Number(",
-											"        pm.collectionVariables.get(\"reservaId\")",
-											"    );",
-											"",
-											"    pm.expect(respuesta.id).to.eql(reservaId);",
-											"});",
-											"",
-											"pm.test(\"La reserva quedó CANCELADA\", function () {",
-											"    const respuesta = pm.response.json();",
-											"    pm.expect(respuesta.estado).to.eql(\"CANCELADO\");",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {},
-										"requests": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/reservas/{{reservaId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"reservas",
-										"{{reservaId}}"
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Reserva encontrada",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/reservas/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"reservas",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"id\": 10,\n  \"fechaReserva\": \"2026-09-19\",\n  \"emailSolicitante\": \"cliente@correo.com\",\n  \"telefonoSolicitante\": \"098765432\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n  \"estado\": \"SOLICITADO\"\n}"
-								},
-								{
-									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/reservas/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"reservas",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id"
-												}
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
-								},
-								{
-									"name": "El recurso solicitado no existe",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/reservas/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"reservas",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id"
-												}
-											]
-										}
-									},
-									"status": "Not Found",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
-								},
-								{
-									"name": "Error interno del servidor",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/reservas/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"reservas",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id"
-												}
-											]
-										}
-									},
-									"status": "Internal Server Error",
-									"code": 500,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
-								}
-							]
-						},
-						{
-							"name": "Solicitar la cancelación de una reserva",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Estado HTTP 202\", function () {",
-											"    pm.response.to.have.status(202);",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {},
-										"requests": {}
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/reservas/{{reservaId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"reservas",
-										"{{reservaId}}"
-									]
-								},
-								"description": "Solicita la cancelación asíncrona mediante el topic turnos/cancelar.\nLa reserva no se elimina físicamente y pasa al estado CANCELADO.\n"
-							},
-							"response": [
-								{
-									"name": "Cancelación aceptada para procesamiento",
-									"originalRequest": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/reservas/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"reservas",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id"
-												}
-											]
-										}
-									},
-									"status": "Accepted",
-									"code": 202,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"mensaje\": \"Solicitud aceptada para procesamiento\"\n}"
-								},
-								{
-									"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
-									"originalRequest": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/reservas/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"reservas",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id"
-												}
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
-								},
-								{
-									"name": "El recurso solicitado no existe",
-									"originalRequest": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/reservas/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"reservas",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id"
-												}
-											]
-										}
-									},
-									"status": "Not Found",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
-								},
-								{
-									"name": "No se pudo conectar con Mosquitto",
-									"originalRequest": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/reservas/:id",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"reservas",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id"
-												}
-											]
-										}
-									},
-									"status": "Service Unavailable",
-									"code": 503,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
-								}
-							]
-						}
-					]
-				},
-				{
-					"name": "Listar reservas",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/reservas",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"reservas"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Lista de reservas persistidas",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/reservas",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"reservas"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "[\n  {\n    \"id\": 10,\n    \"fechaReserva\": \"2026-09-19\",\n    \"emailSolicitante\": \"cliente@correo.com\",\n    \"telefonoSolicitante\": \"098765432\",\n    \"establecimientoId\": 2,\n    \"personalId\": 1,\n    \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n    \"estado\": \"SOLICITADO\"\n  },\n  {\n    \"id\": 10,\n    \"fechaReserva\": \"2026-09-19\",\n    \"emailSolicitante\": \"cliente@correo.com\",\n    \"telefonoSolicitante\": \"098765432\",\n    \"establecimientoId\": 2,\n    \"personalId\": 1,\n    \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n    \"estado\": \"SOLICITADO\"\n  }\n]"
-						},
-						{
-							"name": "Error interno del servidor",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/reservas",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"reservas"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
-						}
-					]
-				},
-				{
 					"name": "Solicitar una nueva reserva",
 					"event": [
 						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.unset('reservaId');",
+									"const baseUrl = pm.variables.get('baseUrl').replace(/[/]$/, '');",
+									"const fecha = new Date();",
+									"fecha.setDate(fecha.getDate() + 3);",
+									"const dia = [fecha.getFullYear(), String(fecha.getMonth() + 1).padStart(2, '0'), String(fecha.getDate()).padStart(2, '0')].join('-');",
+									"pm.collectionVariables.set('fechaHoraPrueba', dia + 'T14:00:00');",
+									"pm.collectionVariables.set('emailPrueba', 'demo.postman.' + Date.now() + '@example.com');",
+									"function crearDatos(ruta, datos, variable, siguiente) {",
+									"    pm.sendRequest({",
+									"        url: baseUrl + ruta,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json', Accept: 'application/json' },",
+									"        body: { mode: 'raw', raw: JSON.stringify(datos) }",
+									"    }, function (error, respuesta) {",
+									"        if (error || respuesta.code !== 201) {",
+									"            throw new Error('No se pudieron crear los datos de prueba en ' + ruta + ': ' + (error || respuesta.code));",
+									"        }",
+									"        const id = respuesta.json().id;",
+									"        if (!Number.isInteger(id) || id <= 0) {",
+									"            throw new Error('La respuesta de ' + ruta + ' no contiene un ID válido');",
+									"        }",
+									"        pm.collectionVariables.set(variable, id);",
+									"        if (siguiente) siguiente(id);",
+									"    });",
+									"}",
+									"crearDatos('/establecimientos', {",
+									"    nombreComercial: 'Demo Postman Parte 4', direccion: 'Direccion de prueba',",
+									"    telefono: '099600002', correo: pm.collectionVariables.get('emailPrueba'),",
+									"    horarioApertura: '08:00:00', horarioCierre: '18:00:00'",
+									"}, 'establecimientoPruebaId', function (establecimientoId) {",
+									"    crearDatos('/personal', {",
+									"        nombre: 'Profesional demo Postman', especialidad: 'Atencion general',",
+									"        costoConsulta: 1500, duracionEstandar: 30, estado: true, establecimientoId: establecimientoId",
+									"    }, 'personalPruebaId');",
+									"});"
+								]
+							}
+						},
+						{
 							"listen": "test",
 							"script": {
-								"exec": [
-									"pm.test(\"Estado HTTP 404\", function () {",
-									"    pm.response.to.have.status(404);",
-									"});",
-									"",
-									"pm.test(\"La respuesta contiene el error 404\", function () {",
-									"    const respuesta = pm.response.json();",
-									"    pm.expect(respuesta.estado).to.eql(404);",
-									"});",
-									"",
-									"pm.test(\"Indica que la reserva no existe\", function () {",
-									"    const respuesta = pm.response.json();",
-									"    pm.expect(respuesta.mensaje)",
-									"        .to.include(\"No existe una reserva\");",
-									"});"
-								],
 								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
+								"exec": [
+									"pm.test('Estado HTTP 202', function () {",
+									"    pm.response.to.have.status(202);",
+									"});",
+									"pm.test('La reserva comienza en SOLICITADO y tiene un ID válido', function () {",
+									"    const respuesta = pm.response.json();",
+									"    pm.expect(respuesta.estado).to.eql('SOLICITADO');",
+									"    pm.expect(Number.isInteger(respuesta.id) && respuesta.id > 0).to.eql(true);",
+									"    pm.collectionVariables.set('reservaId', respuesta.id);",
+									"});"
+								]
 							}
 						}
 					],
@@ -3100,7 +2647,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"emailSolicitante\": \"postman-cancelacion@correo.com\",\n  \"telefonoSolicitante\": \"099600002\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2027-02-15T14:15:00\"\n}",
+							"raw": "{\n  \"emailSolicitante\": \"{{emailPrueba}}\",\n  \"telefonoSolicitante\": \"099600002\",\n  \"establecimientoId\": {{establecimientoPruebaId}},\n  \"personalId\": {{personalPruebaId}},\n  \"fechaHoraTurno\": \"{{fechaHoraPrueba}}\"\n}",
 							"options": {
 								"raw": {
 									"headerFamily": "json",
@@ -3117,7 +2664,7 @@
 								"reservas"
 							]
 						},
-						"description": "Registra la solicitud con estado SOLICITADO.\nLa validación del establecimiento, el personal, la fecha y la\ndisponibilidad se realiza posteriormente de forma asíncrona.\n"
+						"description": "Crea un establecimiento y un profesional exclusivos para esta prueba, solicita un turno para dentro de tres días y guarda reservaId. Cada ejecución crea datos nuevos."
 					},
 					"response": [
 						{
@@ -3259,8 +2806,532 @@
 							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Obtener una reserva por ID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (!pm.variables.get('reservaId')) {",
+									"    throw new Error('Primero ejecutar Solicitar una nueva reserva para obtener reservaId.');",
+									"}"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Estado HTTP 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Corresponde a la reserva creada', function () {",
+									"    pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get('reservaId')));",
+									"});",
+									"pm.test('La reserva tiene un estado válido', function () {",
+									"    pm.expect(['SOLICITADO', 'AGENDADO', 'CANCELADO', 'ATENDIDO', 'FACTURADO', 'RECHAZADO_SOLICITUD_NO_VALIDA', 'RECHAZADO_TURNO_OCUPADO']).to.include(pm.response.json().estado);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/reservas/{{reservaId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reservas",
+								"{{reservaId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Reserva encontrada",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 10,\n  \"fechaReserva\": \"2026-09-19\",\n  \"emailSolicitante\": \"cliente@correo.com\",\n  \"telefonoSolicitante\": \"098765432\",\n  \"establecimientoId\": 2,\n  \"personalId\": 1,\n  \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n  \"estado\": \"SOLICITADO\"\n}"
+						},
+						{
+							"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						},
+						{
+							"name": "El recurso solicitado no existe",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						},
+						{
+							"name": "Error interno del servidor",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Solicitar la cancelación de una reserva",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (!pm.variables.get('reservaId')) {",
+									"    throw new Error('Primero ejecutar Solicitar una nueva reserva para obtener reservaId.');",
+									"}"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Estado HTTP 202', function () {",
+									"    pm.response.to.have.status(202);",
+									"});",
+									"if (pm.response.code === 202) {",
+									"    const id = Number(pm.collectionVariables.get('reservaId'));",
+									"    const url = pm.variables.get('baseUrl').replace(/[/]$/, '') + '/reservas/' + id;",
+									"    const limite = Date.now() + 90000;",
+									"    function comprobarCancelacion() {",
+									"        pm.sendRequest(url, function (error, respuesta) {",
+									"            if (error || respuesta.code !== 200) {",
+									"                pm.test('Se puede consultar la reserva durante la cancelación', function () {",
+									"                    throw new Error(String(error || ('HTTP ' + respuesta.code)));",
+									"                });",
+									"                return;",
+									"            }",
+									"            const reserva = respuesta.json();",
+									"            if (reserva.estado === 'CANCELADO') {",
+									"                pm.test('La reserva creada quedó CANCELADO', function () {",
+									"                    pm.expect(reserva.id).to.eql(id);",
+									"                    pm.expect(reserva.estado).to.eql('CANCELADO');",
+									"                });",
+									"            } else if (['SOLICITADO', 'AGENDADO'].includes(reserva.estado) && Date.now() < limite) {",
+									"                setTimeout(comprobarCancelacion, 2000);",
+									"            } else {",
+									"                pm.test('La cancelación se completa antes de 90 segundos', function () {",
+									"                    throw new Error('Reserva ' + id + ': estado final ' + reserva.estado);",
+									"                });",
+									"            }",
+									"        });",
+									"    }",
+									"    comprobarCancelacion();",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/reservas/{{reservaId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reservas",
+								"{{reservaId}}"
+							]
+						},
+						"description": "Solicita la cancelación asíncrona mediante el topic turnos/cancelar.\nLa reserva no se elimina físicamente y pasa al estado CANCELADO.\n\nConsulta cada dos segundos hasta confirmar CANCELADO, con un límite de 90 segundos."
+					},
+					"response": [
+						{
+							"name": "Cancelación aceptada para procesamiento",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"mensaje\": \"Solicitud aceptada para procesamiento\"\n}"
+						},
+						{
+							"name": "Datos inválidos, parámetros con formato incorrecto o cuerpo JSON ausente o mal formado.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						},
+						{
+							"name": "El recurso solicitado no existe",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						},
+						{
+							"name": "No se pudo conectar con Mosquitto",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Service Unavailable",
+							"code": 503,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Listar reservas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/reservas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reservas"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de reservas persistidas",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 10,\n    \"fechaReserva\": \"2026-09-19\",\n    \"emailSolicitante\": \"cliente@correo.com\",\n    \"telefonoSolicitante\": \"098765432\",\n    \"establecimientoId\": 2,\n    \"personalId\": 1,\n    \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n    \"estado\": \"SOLICITADO\"\n  },\n  {\n    \"id\": 10,\n    \"fechaReserva\": \"2026-09-19\",\n    \"emailSolicitante\": \"cliente@correo.com\",\n    \"telefonoSolicitante\": \"098765432\",\n    \"establecimientoId\": 2,\n    \"personalId\": 1,\n    \"fechaHoraTurno\": \"2026-09-25T10:30:00\",\n    \"estado\": \"SOLICITADO\"\n  }\n]"
+						},
+						{
+							"name": "Error interno del servidor",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/reservas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reservas"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"fechaHora\": \"2026-09-19T10:30:00\",\n  \"estado\": 404,\n  \"error\": \"Recurso no encontrado\",\n  \"mensaje\": \"No existe un establecimiento con ID 25\",\n  \"ruta\": \"/api/establecimientos/25\"\n}"
+						}
+					]
 				}
-			]
+			],
+			"description": "Ejecutar esta carpeta sola en Collection Runner, en el orden guardado: crear, consultar, cancelar y listar. Crea sus propios datos de prueba. No ejecutar toda la colección como prueba automática: las carpetas de personal y establecimientos contienen operaciones manuales, incluidas eliminaciones."
 		}
 	],
 	"event": [
