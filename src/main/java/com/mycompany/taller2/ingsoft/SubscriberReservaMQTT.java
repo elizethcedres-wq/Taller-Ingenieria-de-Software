@@ -483,17 +483,33 @@ public class SubscriberReservaMQTT {
     // CANCELAR TURNO
     // =====================================================
 
-    private static void cancelarTurno(
+    static void cancelarTurno(
             String json,
             Gson gson,
             EntityManager em
     ) {
 
-        CancelarTurnoDTO dto =
-                gson.fromJson(
-                        json,
-                        CancelarTurnoDTO.class
-                );
+        CancelarTurnoDTO dto;
+
+        try {
+            dto = gson.fromJson(json, CancelarTurnoDTO.class);
+        } catch (com.google.gson.JsonParseException excepcion) {
+            System.out.println(
+                    "Cancelación rechazada: JSON inválido"
+            );
+            return;
+        }
+
+        if (dto == null
+                || dto.getReservaId() == null
+                || dto.getReservaId() <= 0) {
+
+            System.out.println(
+                    "Cancelación rechazada: "
+                    + "se requiere un ID de reserva positivo"
+            );
+            return;
+        }
 
         if (dto.getReservaId() == null) {
 

@@ -1,0 +1,10 @@
+id	emailSolicitante	personal_id	fechaHoraTurno	estado
+1	integracion-parte5@correo.com	4	2026-10-31 10:00:00.000	CANCELADO
+2	duplicada-parte5@correo.com	NULL	2026-10-31 10:00:00.000	RECHAZADO_TURNO_OCUPADO
+3	reutilizada-parte5@correo.com	4	2026-10-31 10:00:00.000	CANCELADO
+4	personal-inexistente-parte5@correo.com	NULL	2026-10-31 10:00:00.000	RECHAZADO_SOLICITUD_NO_VALIDA
+5	fuera-agenda-parte5@correo.com	NULL	2026-10-31 17:45:00.000	RECHAZADO_TURNO_OCUPADO
+6	mqtt-recuperacion-parte5@correo.com	4	2026-10-20 19:57:31.000	FACTURADO
+7	mqtt-recuperacion-parte5@correo.com	4	2026-10-20 20:57:31.000	FACTURADO
+email	factura_id	anio	mes	total	cantidad_items
+mqtt-recuperacion-parte5@correo.com	1	2026	10	3000.00	2

@@ -1,0 +1,93 @@
+name: taller-parte5-test
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: turnosdb
+      MYSQL_ROOT_HOST: "%"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysql --protocol=TCP -h 127.0.0.1 -uroot -p"$${MYSQL_ROOT_PASSWORD}" -D turnosdb -e "SELECT 1" >/dev/null 2>&1
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    volumes:
+      - mysql_test_data:/var/lib/mysql
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    volumes:
+      - ./mosquitto/config:/mosquitto/config:ro
+      - mqtt_test_data:/mosquitto/data
+      - mqtt_test_log:/mosquitto/log
+
+  app-listener:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    environment:
+      MAIN_CLASS: com.mycompany.taller2.ingsoft.SubscriberReservaMQTT
+      BROKER_URL: tcp://mosquitto:1883
+      TZ: America/Montevideo
+
+  procesador-solicitudes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    environment:
+      MAIN_CLASS: com.mycompany.taller2.ingsoft.ProcesadorSolicitudes
+      BROKER_URL: tcp://mosquitto:1883
+      VALIDATION_INTERVAL_SECONDS: "5"
+      TZ: America/Montevideo
+
+  facturador:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    environment:
+      MAIN_CLASS: com.mycompany.taller2.ingsoft.FacturadorAutomatico
+      BROKER_URL: tcp://mosquitto:1883
+      BILLING_INTERVAL_SECONDS: "10"
+      TZ: America/Montevideo
+
+  api-rest:
+    build:
+      context: ./api-rest
+      dockerfile: Dockerfile
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    environment:
+      DB_URL: "jdbc:mysql://mysql-db:3306/turnosdb?useSSL=false&allowPublicKeyRetrieval=true&preserveInstants=false"
+      DB_USER: root
+      DB_PASSWORD: root
+      BROKER_URL: tcp://mosquitto:1883
+      TZ: America/Montevideo
+    ports:
+      - "8081:8080"
+
+volumes:
+  mysql_test_data:
+  mqtt_test_data:
+  mqtt_test_log:

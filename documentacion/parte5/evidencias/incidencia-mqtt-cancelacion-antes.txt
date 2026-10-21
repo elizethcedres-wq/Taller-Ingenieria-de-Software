@@ -1,0 +1,132 @@
+app-listener-1  | [EL Fine]: server: 2026-10-21 16:45:56.074--Thread(Thread[#1,main,5,main])--Configured server platform: org.eclipse.persistence.platform.server.NoServerPlatform
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.129--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The access type for the persistent class [class logica.ItemFactura] is set to [FIELD].
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.141--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the many to one mapping element [field factura] is being defaulted to: class logica.Factura.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.143--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the one to one mapping element [field reserva] is being defaulted to: class logica.ReservaTurno.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.143--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The access type for the persistent class [class logica.Establecimiento] is set to [FIELD].
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.146--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the one to many mapping element [field trabajadores] is being defaulted to: class logica.Personal.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.147--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The access type for the persistent class [class logica.Cliente] is set to [FIELD].
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.148--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the one to many mapping element [field facturas] is being defaulted to: class logica.Factura.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.148--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The access type for the persistent class [class logica.ReservaTurno] is set to [FIELD].
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.149--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the many to one mapping element [field personal] is being defaulted to: class logica.Personal.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.151--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The access type for the persistent class [class logica.Factura] is set to [FIELD].
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.151--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the many to one mapping element [field cliente] is being defaulted to: class logica.Cliente.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.152--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the one to many mapping element [field items] is being defaulted to: class logica.ItemFactura.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.152--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The access type for the persistent class [class logica.Personal] is set to [FIELD].
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.152--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the many to one mapping element [field establecimiento] is being defaulted to: class logica.Establecimiento.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.153--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The target entity (reference) class for the one to many mapping element [field reservaTurno] is being defaulted to: class logica.ReservaTurno.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.153--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The alias name for the entity class [class logica.ItemFactura] is being defaulted to: ItemFactura.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.159--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [descripcion] is being defaulted to: DESCRIPCION.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.159--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [id] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.16--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [importe] is being defaulted to: IMPORTE.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.16--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The alias name for the entity class [class logica.Establecimiento] is being defaulted to: Establecimiento.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.16--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The table name for entity [class logica.Establecimiento] is being defaulted to: ESTABLECIMIENTO.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.16--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [correo] is being defaulted to: CORREO.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.161--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [direccion] is being defaulted to: DIRECCION.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.161--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [horarioApertura] is being defaulted to: HORARIOAPERTURA.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.161--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [nombreComercial] is being defaulted to: NOMBRECOMERCIAL.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.161--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [horarioCierre] is being defaulted to: HORARIOCIERRE.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.162--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [id] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.162--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [telefono] is being defaulted to: TELEFONO.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.162--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The alias name for the entity class [class logica.Cliente] is being defaulted to: Cliente.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.162--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [id] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.163--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [telefono] is being defaulted to: TELEFONO.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.163--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [email] is being defaulted to: EMAIL.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.163--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The alias name for the entity class [class logica.ReservaTurno] is being defaulted to: ReservaTurno.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.163--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [estado] is being defaulted to: ESTADO.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.165--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [emailSolicitante] is being defaulted to: EMAILSOLICITANTE.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.165--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [id] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.165--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [fechaHoraTurno] is being defaulted to: FECHAHORATURNO.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.166--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [telefonoSolicitante] is being defaulted to: TELEFONOSOLICITANTE.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.166--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [fechaReserva] is being defaulted to: FECHARESERVA.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.166--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The alias name for the entity class [class logica.Factura] is being defaulted to: Factura.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.166--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [total] is being defaulted to: TOTAL.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.167--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [mes] is being defaulted to: MES.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.167--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [fechaEmision] is being defaulted to: FECHAEMISION.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.167--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [id] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.167--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [anio] is being defaulted to: ANIO.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.167--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The alias name for the entity class [class logica.Personal] is being defaulted to: Personal.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.167--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The table name for entity [class logica.Personal] is being defaulted to: PERSONAL.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.168--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [duracionEstandar] is being defaulted to: DURACIONESTANDAR.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.168--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [estado] is being defaulted to: ESTADO.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.168--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [costoConsulta] is being defaulted to: COSTOCONSULTA.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.168--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [id] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.168--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [nombre] is being defaulted to: NOMBRE.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.168--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The column name for element [especialidad] is being defaulted to: ESPECIALIDAD.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.173--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The primary key column name for the mapping element [field factura] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.174--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The primary key column name for the mapping element [field reserva] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.174--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The primary key column name for the mapping element [field personal] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.174--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The primary key column name for the mapping element [field cliente] is being defaulted to: ID.
+app-listener-1  | [EL Config]: metadata: 2026-10-21 16:45:56.174--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--The primary key column name for the mapping element [field establecimiento] is being defaulted to: ID.
+app-listener-1  | [EL Info]: 2026-10-21 16:45:56.244--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--EclipseLink, version: Eclipse Persistence Services - 2.7.12.v20230209-e5c4074ef3
+app-listener-1  | [EL Fine]: connection: 2026-10-21 16:45:56.4--Thread(Thread[#1,main,5,main])--Detected database platform: org.eclipse.persistence.platform.database.MySQLPlatform
+app-listener-1  | [EL Fine]: connection: 2026-10-21 16:45:56.404--ServerSession(1920387277)--Connection(573200870)--Thread(Thread[#1,main,5,main])--connecting(DatabaseLogin(
+app-listener-1  | 	platform=>MySQLPlatform
+app-listener-1  | 	user name=> "root"
+app-listener-1  | 	datasource URL=> "jdbc:mysql://mysql-db:3306/turnosdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true"
+app-listener-1  | ))
+app-listener-1  | [EL Config]: connection: 2026-10-21 16:45:56.417--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--Connected: jdbc:mysql://mysql-db:3306/turnosdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+app-listener-1  | 	User: root@172.18.0.4
+app-listener-1  | 	Database: MySQL  Version: 8.0.46
+app-listener-1  | 	Driver: MySQL Connector/J  Version: mysql-connector-j-9.4.0 (Revision: d680767849154c8e136dfc3d8a0ae4d9fefd1fb7)
+app-listener-1  | [EL Fine]: connection: 2026-10-21 16:45:56.442--ServerSession(1920387277)--Thread(Thread[#1,main,5,main])--/file:/app/app.jar_turnosPU login successful
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.463--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--CREATE TABLE ESTABLECIMIENTO (ID BIGINT AUTO_INCREMENT NOT NULL, CORREO VARCHAR(255), DIRECCION VARCHAR(255), HORARIOAPERTURA TIME(3), HORARIOCIERRE TIME(3), NOMBRECOMERCIAL VARCHAR(255), TELEFONO VARCHAR(255), PRIMARY KEY (ID))
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.484--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--CREATE TABLE PERSONAL (ID BIGINT AUTO_INCREMENT NOT NULL, COSTOCONSULTA INTEGER, DURACIONESTANDAR INTEGER, ESPECIALIDAD VARCHAR(255), ESTADO TINYINT(1) default 0, NOMBRE VARCHAR(255), establecimiento_id BIGINT, PRIMARY KEY (ID))
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.502--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--CREATE TABLE RESERVATURNO (ID BIGINT AUTO_INCREMENT NOT NULL, EMAILSOLICITANTE VARCHAR(255), establecimiento_solicitado_id BIGINT, ESTADO VARCHAR(50), FECHAHORATURNO DATETIME(3), FECHARESERVA DATE, personal_solicitado_id BIGINT, TELEFONOSOLICITANTE VARCHAR(255), personal_id BIGINT, PRIMARY KEY (ID))
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.52--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--CREATE TABLE CLIENTE (ID BIGINT AUTO_INCREMENT NOT NULL, EMAIL VARCHAR(255) NOT NULL UNIQUE, TELEFONO VARCHAR(255), PRIMARY KEY (ID))
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.539--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--CREATE TABLE FACTURA (ID BIGINT AUTO_INCREMENT NOT NULL, ANIO INTEGER, FECHAEMISION DATE, MES INTEGER, TOTAL DECIMAL(12,2) NOT NULL, cliente_id BIGINT NOT NULL, PRIMARY KEY (ID))
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.555--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--CREATE TABLE ITEMFACTURA (ID BIGINT AUTO_INCREMENT NOT NULL, DESCRIPCION VARCHAR(255) NOT NULL, IMPORTE DECIMAL(12,2) NOT NULL, factura_id BIGINT NOT NULL, reserva_id BIGINT NOT NULL UNIQUE, PRIMARY KEY (ID))
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.572--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--ALTER TABLE CLIENTE ADD CONSTRAINT UNQ_CLIENTE_0 UNIQUE (email)
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.59--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--ALTER TABLE FACTURA ADD CONSTRAINT UNQ_FACTURA_0 UNIQUE (cliente_id, anio, mes)
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.602--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--ALTER TABLE ITEMFACTURA ADD CONSTRAINT UNQ_ITEMFACTURA_0 UNIQUE (reserva_id)
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.613--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--ALTER TABLE PERSONAL ADD CONSTRAINT FK_PERSONAL_establecimiento_id FOREIGN KEY (establecimiento_id) REFERENCES ESTABLECIMIENTO (ID)
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.645--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--ALTER TABLE RESERVATURNO ADD CONSTRAINT FK_RESERVATURNO_personal_id FOREIGN KEY (personal_id) REFERENCES PERSONAL (ID)
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.68--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--ALTER TABLE FACTURA ADD CONSTRAINT FK_FACTURA_cliente_id FOREIGN KEY (cliente_id) REFERENCES CLIENTE (ID)
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.714--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--ALTER TABLE ITEMFACTURA ADD CONSTRAINT FK_ITEMFACTURA_reserva_id FOREIGN KEY (reserva_id) REFERENCES RESERVATURNO (ID)
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.748--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--ALTER TABLE ITEMFACTURA ADD CONSTRAINT FK_ITEMFACTURA_factura_id FOREIGN KEY (factura_id) REFERENCES FACTURA (ID)
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.852--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#1,main,5,main])--SELECT COUNT(ID) FROM PERSONAL
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.862--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--INSERT INTO ESTABLECIMIENTO (CORREO, DIRECCION, HORARIOAPERTURA, HORARIOCIERRE, NOMBRECOMERCIAL, TELEFONO) VALUES (?, ?, ?, ?, ?, ?)
+app-listener-1  | 	bind => [info@agosto.com, 18 de Agosto 1235, 08:00, 18:00, Clinica asdf, 24111234]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.877--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--SELECT LAST_INSERT_ID()
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.881--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--INSERT INTO ESTABLECIMIENTO (CORREO, DIRECCION, HORARIOAPERTURA, HORARIOCIERRE, NOMBRECOMERCIAL, TELEFONO) VALUES (?, ?, ?, ?, ?, ?)
+app-listener-1  | 	bind => [info@clinica.es, 18 de Julio 1235, 08:00, 18:00, Clinica Adyacente, 24001238]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.883--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--SELECT LAST_INSERT_ID()
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.885--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--INSERT INTO ESTABLECIMIENTO (CORREO, DIRECCION, HORARIOAPERTURA, HORARIOCIERRE, NOMBRECOMERCIAL, TELEFONO) VALUES (?, ?, ?, ?, ?, ?)
+app-listener-1  | 	bind => [info@clinica.com, 18 Julio 1235, 08:00, 18:00, Central, 24001234]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.887--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--SELECT LAST_INSERT_ID()
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.892--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--INSERT INTO PERSONAL (COSTOCONSULTA, DURACIONESTANDAR, ESPECIALIDAD, ESTADO, NOMBRE, establecimiento_id) VALUES (?, ?, ?, ?, ?, ?)
+app-listener-1  | 	bind => [1530, 30, Cardiologia, true, juANJO Perez, 1]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.895--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--SELECT LAST_INSERT_ID()
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.896--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--INSERT INTO PERSONAL (COSTOCONSULTA, DURACIONESTANDAR, ESPECIALIDAD, ESTADO, NOMBRE, establecimiento_id) VALUES (?, ?, ?, ?, ?, ?)
+app-listener-1  | 	bind => [1500, 30, Cardiologia, true, Juan Perez, 2]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.897--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--SELECT LAST_INSERT_ID()
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.898--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--INSERT INTO PERSONAL (COSTOCONSULTA, DURACIONESTANDAR, ESPECIALIDAD, ESTADO, NOMBRE, establecimiento_id) VALUES (?, ?, ?, ?, ?, ?)
+app-listener-1  | 	bind => [1500, 30, Cardiologia, true, Juan, 3]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:45:56.899--ClientSession(1488946768)--Connection(859236022)--Thread(Thread[#1,main,5,main])--SELECT LAST_INSERT_ID()
+app-listener-1  | Datos iniciales de prueba cargados.
+app-listener-1  | Intentando conectar a Mosquitto en: tcp://mosquitto:1883
+app-listener-1  | Conectado a Mosquitto correctamente
+app-listener-1  | Escuchando topic: turnos/reserva
+app-listener-1  | Escuchando topic: turnos/cancelar
+app-listener-1  | Escuchando topic: turnos/disponibilidad
+app-listener-1  | Escuchando topic: turnos/agenda
+app-listener-1  | Listener activo. Esperando mensajes...
+app-listener-1  | --------------------------------
+app-listener-1  | Mensaje recibido en: turnos/cancelar
+app-listener-1  | {"reservaId":1}
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:53:21.294--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#29,MQTT Call: paho3129865674738,5,main])--SELECT ID, EMAILSOLICITANTE, establecimiento_solicitado_id, ESTADO, FECHAHORATURNO, FECHARESERVA, personal_solicitado_id, TELEFONOSOLICITANTE, personal_id FROM RESERVATURNO WHERE (ID = ?)
+app-listener-1  | 	bind => [1]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:53:21.299--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#29,MQTT Call: paho3129865674738,5,main])--SELECT ID, COSTOCONSULTA, DURACIONESTANDAR, ESPECIALIDAD, ESTADO, NOMBRE, establecimiento_id FROM PERSONAL WHERE (ID = ?)
+app-listener-1  | 	bind => [4]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:53:21.301--ServerSession(1920387277)--Connection(859236022)--Thread(Thread[#29,MQTT Call: paho3129865674738,5,main])--SELECT ID, CORREO, DIRECCION, HORARIOAPERTURA, HORARIOCIERRE, NOMBRECOMERCIAL, TELEFONO FROM ESTABLECIMIENTO WHERE (ID = ?)
+app-listener-1  | 	bind => [4]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:53:21.305--ClientSession(121898124)--Connection(859236022)--Thread(Thread[#29,MQTT Call: paho3129865674738,5,main])--SELECT ID, EMAILSOLICITANTE, establecimiento_solicitado_id, ESTADO, FECHAHORATURNO, FECHARESERVA, personal_solicitado_id, TELEFONOSOLICITANTE, personal_id FROM RESERVATURNO WHERE (ID = ?) FOR UPDATE
+app-listener-1  | 	bind => [1]
+app-listener-1  | [EL Fine]: sql: 2026-10-21 16:53:21.308--ClientSession(121898124)--Connection(859236022)--Thread(Thread[#29,MQTT Call: paho3129865674738,5,main])--UPDATE RESERVATURNO SET ESTADO = ? WHERE (ID = ?)
+app-listener-1  | 	bind => [CANCELADO, 1]
+app-listener-1  | Turno cancelado correctamente.
+app-listener-1  | Reserva conservada con estado CANCELADO. ID = 1
+app-listener-1  | --------------------------------
+app-listener-1  | --------------------------------
+app-listener-1  | Mensaje recibido en: turnos/cancelar
+app-listener-1  | esto-no-es-json
+app-listener-1  | Conexión MQTT perdida: MqttException

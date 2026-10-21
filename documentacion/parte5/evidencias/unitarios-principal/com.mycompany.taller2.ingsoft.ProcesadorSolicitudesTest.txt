@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.mycompany.taller2.ingsoft.ProcesadorSolicitudesTest
+-------------------------------------------------------------------------------
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.780 s -- in com.mycompany.taller2.ingsoft.ProcesadorSolicitudesTest
