@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
 import logica.*;
+
 public class ProcesadorSolicitudes {
     public static void main(String[] args) {
         EntityManagerFactory emf =
@@ -102,7 +103,7 @@ public class ProcesadorSolicitudes {
             em.close();
         }
     }
-private static List<Long> marcarTurnosAtendidos(EntityManager em) {
+    static List<Long> marcarTurnosAtendidos(EntityManager em) {
     List<ReservaTurno> agendadas = em.createQuery(
             "SELECT r FROM ReservaTurno r WHERE r.estado = :estado",
             ReservaTurno.class)
@@ -126,7 +127,7 @@ private static List<Long> marcarTurnosAtendidos(EntityManager em) {
     }
     return atendidas;
 }
-    private static boolean estaDisponible(
+    static boolean estaDisponible(
             EntityManager em,
             ReservaTurno solicitud,
             Personal personal
@@ -191,7 +192,7 @@ private static List<Long> marcarTurnosAtendidos(EntityManager em) {
         }
         return true;
     }
-    private static String validarSolicitud(
+    static String validarSolicitud(
             EntityManager em,
             ReservaTurno solicitud
     ) {

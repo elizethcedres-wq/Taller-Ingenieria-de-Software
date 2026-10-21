@@ -81,7 +81,7 @@ public class FacturadorAutomatico {
             em.close();
         }
     }
-    private static boolean facturarReserva(
+    static boolean facturarReserva(
             EntityManager em,
             ReservaTurno reserva
     ) {
