@@ -1,0 +1,53 @@
+POST /establecimientos -> HTTP 201
+POST /personal -> HTTP 201
+OK: establecimiento y personal persistidos
+GET /personal/5/disponibilidad?fechaHora=2026-10-31T10:00:00 -> HTTP 200
+POST /reservas -> HTTP 202
+GET /reservas/8 -> HTTP 200
+GET /reservas/8 -> HTTP 200
+GET /reservas/8 -> HTTP 200
+Reserva 8 -> AGENDADO
+GET /personal/5/disponibilidad?fechaHora=2026-10-31T10:00:00 -> HTTP 200
+POST /reservas -> HTTP 202
+GET /reservas/9 -> HTTP 200
+GET /reservas/9 -> HTTP 200
+GET /reservas/9 -> HTTP 200
+Reserva 9 -> RECHAZADO_TURNO_OCUPADO
+DELETE /reservas/8 -> HTTP 202
+GET /reservas/8 -> HTTP 200
+GET /reservas/8 -> HTTP 200
+Reserva 8 -> CANCELADO
+GET /personal/5/disponibilidad?fechaHora=2026-10-31T10:00:00 -> HTTP 200
+POST /reservas -> HTTP 202
+GET /reservas/10 -> HTTP 200
+GET /reservas/10 -> HTTP 200
+Reserva 10 -> AGENDADO
+GET /personal/999999 -> HTTP 404
+POST /reservas -> HTTP 202
+GET /reservas/11 -> HTTP 200
+GET /reservas/11 -> HTTP 200
+GET /reservas/11 -> HTTP 200
+GET /reservas/11 -> HTTP 200
+Reserva 11 -> RECHAZADO_SOLICITUD_NO_VALIDA
+POST /reservas -> HTTP 202
+GET /reservas/12 -> HTTP 200
+GET /reservas/12 -> HTTP 200
+GET /reservas/12 -> HTTP 200
+Reserva 12 -> RECHAZADO_TURNO_OCUPADO
+POST /reservas -> HTTP 202
+GET /reservas/13 -> HTTP 200
+GET /reservas/13 -> HTTP 200
+GET /reservas/13 -> HTTP 200
+Reserva 13 -> AGENDADO
+DELETE /reservas/13 -> HTTP 202
+GET /reservas/13 -> HTTP 200
+GET /reservas/13 -> HTTP 200
+Reserva 13 -> CANCELADO
+
+PARTE5_FUNCIONAL_OK
+Establecimiento: 5
+Personal: 5
+Correo de esta ejecución: parte5-4f199c00e089@example.com
+Registro, reserva, disponibilidad, doble reserva, cancelación,
+reutilización, profesional inexistente, fuera de agenda y
+recuperación tras mensajes MQTT inválidos: correctos.
