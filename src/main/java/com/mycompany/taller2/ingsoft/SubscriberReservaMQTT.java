@@ -396,11 +396,13 @@ public class SubscriberReservaMQTT {
                         "SELECT COUNT(r) "
                         + "FROM ReservaTurno r "
                         + "WHERE r.personal = :personal "
+                        + "AND r.estado = :estado "
                         + "AND r.fechaHoraTurno > :limiteInferior "
                         + "AND r.fechaHoraTurno < :limiteSuperior",
                         Long.class
                 )
                 .setParameter("personal", personal)
+                .setParameter("estado", EstadoTurno.AGENDADO)
                 .setParameter(
                         "limiteInferior",
                         limiteInferior
@@ -434,6 +436,12 @@ public class SubscriberReservaMQTT {
         );
 
         reserva.setPersonal(personal);
+        
+        reserva.setPersonalSolicitadoId(personal.getId());
+
+        reserva.setEstablecimientoSolicitadoId(
+                personal.getEstablecimiento().getId()
+        );
 
         reserva.setFechaHoraTurno(
                 fechaHoraTurno
@@ -790,6 +798,7 @@ public class SubscriberReservaMQTT {
                         "SELECT COUNT(r) "
                         + "FROM ReservaTurno r "
                         + "WHERE r.personal = :personal "
+                        + "AND r.estado IN :estados "
                         + "AND r.fechaHoraTurno > :limiteInferior "
                         + "AND r.fechaHoraTurno < :limiteSuperior",
                         Long.class
@@ -797,6 +806,14 @@ public class SubscriberReservaMQTT {
                 .setParameter(
                         "personal",
                         personal
+                )
+                .setParameter(
+                        "estados",
+                        List.of(
+                                EstadoTurno.AGENDADO,
+                                EstadoTurno.ATENDIDO,
+                                EstadoTurno.FACTURADO
+                        )
                 )
                 .setParameter(
                         "limiteInferior",
@@ -941,6 +958,7 @@ public class SubscriberReservaMQTT {
                         "SELECT r "
                         + "FROM ReservaTurno r "
                         + "WHERE r.personal = :personal "
+                        + "AND r.estado IN :estados "
                         + "AND r.fechaHoraTurno >= :inicio "
                         + "AND r.fechaHoraTurno < :fin "
                         + "ORDER BY r.fechaHoraTurno",
@@ -950,6 +968,14 @@ public class SubscriberReservaMQTT {
                         "personal",
                         personal
                 )
+                .setParameter(
+                        "estados",
+                        List.of(
+                                EstadoTurno.AGENDADO,
+                                EstadoTurno.ATENDIDO,
+                                EstadoTurno.FACTURADO
+                        )
+                )        
                 .setParameter(
                         "inicio",
                         inicio

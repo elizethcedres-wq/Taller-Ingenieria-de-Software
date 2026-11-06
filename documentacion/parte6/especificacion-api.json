@@ -1,0 +1,2160 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API de gestión de reservas de turnos - GrupoIIS2026",
+    "version": "1.0.0",
+    "description": "Especificación de la Parte 6 revisada contra controladores, DTO y servicios Java del proyecto proporcionado. Base URL: http://localhost:8080/api. Las altas de reserva y cancelaciones son asíncronas y publican avisos MQTT. HTTP 202 no confirma AGENDADO o CANCELADO: consultar GET /reservas/{id}. Las fechas y horas se interpretan como hora local sin offset, con los contenedores configurados en America/Montevideo. No se configura autenticación en la API de demostración. Los ejemplos son ilustrativos; reemplazar IDs y fechas según los datos disponibles. Esta revisión del archivo de entrega no modifica automáticamente la documentación generada por la aplicación en ejecución."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api",
+      "description": "API local desplegada con Docker Compose"
+    }
+  ],
+  "paths": {
+    "/personal/{id}": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "operationId": "obtener",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalRespuesta"
+                },
+                "example": {
+                  "id": 2,
+                  "nombre": "Profesional de prueba",
+                  "especialidad": "Atención general",
+                  "costoConsulta": 1500,
+                  "duracionEstandar": 30,
+                  "estado": true,
+                  "establecimientoId": 1
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener personal",
+        "description": "Busca el empleado por ID."
+      },
+      "put": {
+        "tags": [
+          "Personal"
+        ],
+        "operationId": "actualizar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalEntrada"
+              },
+              "example": {
+                "nombre": "Profesional de prueba",
+                "especialidad": "Atención general",
+                "costoConsulta": 1500,
+                "duracionEstandar": 30,
+                "estado": true,
+                "establecimientoId": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalRespuesta"
+                },
+                "example": {
+                  "id": 2,
+                  "nombre": "Profesional de prueba",
+                  "especialidad": "Atención general",
+                  "costoConsulta": 1500,
+                  "duracionEstandar": 30,
+                  "estado": true,
+                  "establecimientoId": 1
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Actualizar personal",
+        "description": "Actualiza los datos completos, incluido establecimientoId."
+      },
+      "delete": {
+        "tags": [
+          "Personal"
+        ],
+        "operationId": "eliminar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Recurso eliminado; respuesta sin cuerpo."
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El recurso tiene asociaciones que impiden eliminarlo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 409,
+                  "error": "Conflict",
+                  "mensaje": "El recurso tiene asociaciones que impiden eliminarlo.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/personal/2"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Eliminar personal",
+        "description": "Solo permite eliminar empleados sin reservas asociadas, incluidas reservas históricas o canceladas. Si tiene reservas devuelve 409."
+      }
+    },
+    "/establecimientos/{id}": {
+      "get": {
+        "tags": [
+          "Establecimientos"
+        ],
+        "operationId": "obtener_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EstablecimientoRespuesta"
+                },
+                "example": {
+                  "id": 1,
+                  "nombreComercial": "Local de prueba",
+                  "direccion": "Calle de prueba 123",
+                  "telefono": "099123456",
+                  "correo": "local@example.com",
+                  "horarioApertura": "08:00:00",
+                  "horarioCierre": "18:00:00"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener establecimiento",
+        "description": "Busca el establecimiento por ID."
+      },
+      "put": {
+        "tags": [
+          "Establecimientos"
+        ],
+        "operationId": "actualizar_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstablecimientoEntrada"
+              },
+              "example": {
+                "nombreComercial": "Local de prueba",
+                "direccion": "Calle de prueba 123",
+                "telefono": "099123456",
+                "correo": "local@example.com",
+                "horarioApertura": "08:00:00",
+                "horarioCierre": "18:00:00"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EstablecimientoRespuesta"
+                },
+                "example": {
+                  "id": 1,
+                  "nombreComercial": "Local de prueba",
+                  "direccion": "Calle de prueba 123",
+                  "telefono": "099123456",
+                  "correo": "local@example.com",
+                  "horarioApertura": "08:00:00",
+                  "horarioCierre": "18:00:00"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Actualizar establecimiento",
+        "description": "Recibe el objeto completo del establecimiento; no es una actualización parcial."
+      },
+      "delete": {
+        "tags": [
+          "Establecimientos"
+        ],
+        "operationId": "eliminar_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Recurso eliminado; respuesta sin cuerpo."
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El recurso tiene asociaciones que impiden eliminarlo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 409,
+                  "error": "Conflict",
+                  "mensaje": "El recurso tiene asociaciones que impiden eliminarlo.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/establecimientos/2"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Eliminar establecimiento",
+        "description": "Elimina el local si existe y no tiene personal asociado. Devuelve 409 si tiene personal."
+      }
+    },
+    "/reservas": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "operationId": "listar",
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReservaRespuesta"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 11,
+                    "fechaReserva": "2026-11-06",
+                    "emailSolicitante": "cliente@example.com",
+                    "telefonoSolicitante": "099123456",
+                    "establecimientoId": 1,
+                    "personalId": 2,
+                    "fechaHoraTurno": "2026-12-10T11:00:00",
+                    "estado": "SOLICITADO"
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/reservas"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar reservas",
+        "description": "Devuelve las reservas almacenadas con sus estados, incluidas las canceladas o rechazadas."
+      },
+      "post": {
+        "tags": [
+          "Reservas"
+        ],
+        "operationId": "solicitar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReservaEntrada"
+              },
+              "example": {
+                "emailSolicitante": "cliente@example.com",
+                "telefonoSolicitante": "099123456",
+                "establecimientoId": 1,
+                "personalId": 2,
+                "fechaHoraTurno": "2026-12-10T11:00:00"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Solicitud aceptada para procesamiento asíncrono.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservaRespuesta"
+                },
+                "example": {
+                  "id": 11,
+                  "fechaReserva": "2026-11-06",
+                  "emailSolicitante": "cliente@example.com",
+                  "telefonoSolicitante": "099123456",
+                  "establecimientoId": 1,
+                  "personalId": 2,
+                  "fechaHoraTurno": "2026-12-10T11:00:00",
+                  "estado": "SOLICITADO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/reservas"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/reservas"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "No se pudo conectar o publicar en Mosquitto.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 503,
+                  "error": "Service Unavailable",
+                  "mensaje": "No se pudo conectar o publicar en Mosquitto.",
+                  "ruta": "/api/reservas"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Solicitar una reserva",
+        "description": "Registra SOLICITADO y publica {reservaId} en turnos/solicitudes. Responde 202. El procesador evalúa periódicamente (60 s en Compose) y asigna AGENDADO o un estado de rechazo. Consultar GET /reservas/{id} para conocer el resultado. Un conflicto de horario puede informarse después como estado rechazado, no como 409 en esta llamada."
+      }
+    },
+    "/personal": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "operationId": "listar_1",
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonalRespuesta"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 2,
+                    "nombre": "Profesional de prueba",
+                    "especialidad": "Atención general",
+                    "costoConsulta": 1500,
+                    "duracionEstandar": 30,
+                    "estado": true,
+                    "establecimientoId": 1
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/personal"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar personal",
+        "description": "Devuelve todo el personal registrado."
+      },
+      "post": {
+        "tags": [
+          "Personal"
+        ],
+        "operationId": "crear",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalEntrada"
+              },
+              "example": {
+                "nombre": "Profesional de prueba",
+                "especialidad": "Atención general",
+                "costoConsulta": 1500,
+                "duracionEstandar": 30,
+                "estado": true,
+                "establecimientoId": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso creado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalRespuesta"
+                },
+                "example": {
+                  "id": 2,
+                  "nombre": "Profesional de prueba",
+                  "especialidad": "Atención general",
+                  "costoConsulta": 1500,
+                  "duracionEstandar": 30,
+                  "estado": true,
+                  "establecimientoId": 1
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "URI del recurso creado.",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/personal"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/personal"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/personal"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Crear personal",
+        "description": "Registra un empleado asociado a un establecimiento existente."
+      }
+    },
+    "/establecimientos": {
+      "get": {
+        "tags": [
+          "Establecimientos"
+        ],
+        "operationId": "listar_2",
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EstablecimientoRespuesta"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "nombreComercial": "Local de prueba",
+                    "direccion": "Calle de prueba 123",
+                    "telefono": "099123456",
+                    "correo": "local@example.com",
+                    "horarioApertura": "08:00:00",
+                    "horarioCierre": "18:00:00"
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/establecimientos"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar establecimientos",
+        "description": "Devuelve todos los establecimientos registrados."
+      },
+      "post": {
+        "tags": [
+          "Establecimientos"
+        ],
+        "operationId": "crear_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstablecimientoEntrada"
+              },
+              "example": {
+                "nombreComercial": "Local de prueba",
+                "direccion": "Calle de prueba 123",
+                "telefono": "099123456",
+                "correo": "local@example.com",
+                "horarioApertura": "08:00:00",
+                "horarioCierre": "18:00:00"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso creado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EstablecimientoRespuesta"
+                },
+                "example": {
+                  "id": 1,
+                  "nombreComercial": "Local de prueba",
+                  "direccion": "Calle de prueba 123",
+                  "telefono": "099123456",
+                  "correo": "local@example.com",
+                  "horarioApertura": "08:00:00",
+                  "horarioCierre": "18:00:00"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "URI del recurso creado.",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/establecimientos"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/establecimientos"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Crear establecimiento",
+        "description": "Registra el local. Requiere apertura anterior al cierre."
+      }
+    },
+    "/establecimientos/{id}/personal": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "operationId": "listarPorEstablecimiento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonalRespuesta"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 2,
+                    "nombre": "Profesional de prueba",
+                    "especialidad": "Atención general",
+                    "costoConsulta": 1500,
+                    "duracionEstandar": 30,
+                    "estado": true,
+                    "establecimientoId": 1
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/establecimientos/2/personal"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/establecimientos/2/personal"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/establecimientos/2/personal"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar personal de un establecimiento",
+        "description": "Devuelve empleados del local; 404 si el establecimiento no existe."
+      },
+      "post": {
+        "tags": [
+          "Personal"
+        ],
+        "operationId": "crearEnEstablecimiento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalEstablecimientoEntrada"
+              },
+              "example": {
+                "nombre": "Profesional de prueba",
+                "especialidad": "Atención general",
+                "costoConsulta": 1500,
+                "duracionEstandar": 30,
+                "estado": true
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso creado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalRespuesta"
+                },
+                "example": {
+                  "id": 2,
+                  "nombre": "Profesional de prueba",
+                  "especialidad": "Atención general",
+                  "costoConsulta": 1500,
+                  "duracionEstandar": 30,
+                  "estado": true,
+                  "establecimientoId": 1
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "URI del recurso creado.",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/establecimientos/2/personal"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/establecimientos/2/personal"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/establecimientos/2/personal"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Crear personal en un establecimiento",
+        "description": "El ID del local se toma de la ruta; el cuerpo no incluye establecimientoId."
+      }
+    },
+    "/reservas/{id}": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "operationId": "obtener_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservaRespuesta"
+                },
+                "example": {
+                  "id": 11,
+                  "fechaReserva": "2026-11-06",
+                  "emailSolicitante": "cliente@example.com",
+                  "telefonoSolicitante": "099123456",
+                  "establecimientoId": 1,
+                  "personalId": 2,
+                  "fechaHoraTurno": "2026-12-10T11:00:00",
+                  "estado": "SOLICITADO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/reservas/2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/reservas/2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/reservas/2"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener reserva y estado",
+        "description": "Permite observar SOLICITADO, AGENDADO, rechazos, CANCELADO, ATENDIDO o FACTURADO."
+      },
+      "delete": {
+        "tags": [
+          "Reservas"
+        ],
+        "operationId": "cancelar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Solicitud aceptada para procesamiento asíncrono.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensajeRespuesta"
+                },
+                "example": {
+                  "mensaje": "Solicitud de cancelación aceptada para procesamiento"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/reservas/2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/reservas/2"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/reservas/2"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "No se pudo conectar o publicar en Mosquitto.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 503,
+                  "error": "Service Unavailable",
+                  "mensaje": "No se pudo conectar o publicar en Mosquitto.",
+                  "ruta": "/api/reservas/2"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Solicitar cancelación",
+        "description": "Publica {reservaId} en turnos/cancelar y devuelve 202. No elimina el registro. El listener cancela reservas SOLICITADO o AGENDADO; si ya está CANCELADO no cambia. La aceptación HTTP no garantiza cancelación si el estado no es cancelable. Consultar GET /reservas/{id}."
+      }
+    },
+    "/personal/{id}/reservas": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "operationId": "listarPorPersonal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          },
+          {
+            "name": "fecha",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Fecha local yyyy-MM-dd; si se omite se devuelve todo el historial del empleado.",
+            "example": "2026-12-10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReservaRespuesta"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 11,
+                    "fechaReserva": "2026-11-06",
+                    "emailSolicitante": "cliente@example.com",
+                    "telefonoSolicitante": "099123456",
+                    "establecimientoId": 1,
+                    "personalId": 2,
+                    "fechaHoraTurno": "2026-12-10T11:00:00",
+                    "estado": "SOLICITADO"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/personal/2/reservas"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/personal/2/reservas"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/personal/2/reservas"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Consultar reservas de un empleado",
+        "description": "Devuelve reservas asignadas al empleado; fecha es opcional. Con fecha devuelve el día indicado, sin fecha devuelve todo su historial. La implementación HTTP no filtra por estado e incluye canceladas. No equivale a la agenda MQTT filtrada por estados."
+      }
+    },
+    "/personal/{id}/disponibilidad": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "operationId": "disponibilidad",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Identificador entero del recurso indicado en la ruta.",
+            "example": 2
+          },
+          {
+            "name": "fechaHora",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+              "description": "Fecha y hora local ISO, sin Z ni desplazamiento horario. Ejemplo: 2026-12-10T11:00:00.",
+              "examples": [
+                "2026-12-10T11:00:00"
+              ]
+            },
+            "description": "Inicio del turno de 30 minutos, como fecha y hora local sin zona ni offset.",
+            "example": "2026-12-10T11:00:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación completada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DisponibilidadRespuesta"
+                },
+                "example": {
+                  "personalId": 2,
+                  "fechaHoraTurno": "2026-12-10T11:00:00",
+                  "disponible": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos o formatos inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 400,
+                  "error": "Bad Request",
+                  "mensaje": "Datos o formatos inválidos.",
+                  "ruta": "/api/personal/2/disponibilidad"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso relacionado o solicitado inexistente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 404,
+                  "error": "Not Found",
+                  "mensaje": "Recurso relacionado o solicitado inexistente.",
+                  "ruta": "/api/personal/2/disponibilidad"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno no controlado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRespuesta"
+                },
+                "example": {
+                  "fechaHora": "2026-11-06T12:00:00",
+                  "estado": 500,
+                  "error": "Internal Server Error",
+                  "mensaje": "Error interno no controlado.",
+                  "ruta": "/api/personal/2/disponibilidad"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Consultar disponibilidad de un empleado",
+        "description": "Comprueba personal activo, establecimiento, duración de 30 minutos, horario y solapamientos con reservas AGENDADO, ATENDIDO o FACTURADO. Devuelve false para personal inactivo o incumplimientos de horario/duración; 404 si el empleado no existe. No bloquea el horario. No recibe ni publica una consulta MQTT: consulta la base desde la API."
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PersonalEntrada": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "minLength": 1
+          },
+          "especialidad": {
+            "type": "string",
+            "minLength": 1
+          },
+          "costoConsulta": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "description": "Costo entero no negativo. Al ser int, su omisión se deserializa como cero."
+          },
+          "duracionEstandar": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 30,
+            "minimum": 30,
+            "description": "Duración en minutos: debe ser exactamente 30. Se debe enviar; su omisión genera cero y falla la validación."
+          },
+          "estado": {
+            "type": "boolean",
+            "description": "true: activo; false: inactivo. El servicio CRUD admite ambos valores; solo el personal activo puede atender reservas."
+          },
+          "establecimientoId": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "especialidad",
+          "establecimientoId",
+          "estado",
+          "nombre",
+          "duracionEstandar"
+        ],
+        "example": {
+          "nombre": "Profesional de prueba",
+          "especialidad": "Atención general",
+          "costoConsulta": 1500,
+          "duracionEstandar": 30,
+          "estado": true,
+          "establecimientoId": 1
+        }
+      },
+      "PersonalRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "especialidad": {
+            "type": "string"
+          },
+          "costoConsulta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duracionEstandar": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "establecimientoId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "example": {
+          "id": 2,
+          "nombre": "Profesional de prueba",
+          "especialidad": "Atención general",
+          "costoConsulta": 1500,
+          "duracionEstandar": 30,
+          "estado": true,
+          "establecimientoId": 1
+        }
+      },
+      "EstablecimientoEntrada": {
+        "type": "object",
+        "properties": {
+          "nombreComercial": {
+            "type": "string",
+            "minLength": 1
+          },
+          "direccion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "telefono": {
+            "type": "string",
+            "minLength": 1
+          },
+          "correo": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1
+          },
+          "horarioApertura": {
+            "type": "string",
+            "pattern": "^\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "description": "Hora local HH:mm o HH:mm:ss. El servidor valida que sea una hora válida.",
+            "examples": [
+              "08:00:00"
+            ]
+          },
+          "horarioCierre": {
+            "type": "string",
+            "pattern": "^\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "description": "Hora local HH:mm o HH:mm:ss. El servidor valida que sea una hora válida.",
+            "examples": [
+              "08:00:00"
+            ]
+          }
+        },
+        "required": [
+          "correo",
+          "direccion",
+          "horarioApertura",
+          "horarioCierre",
+          "nombreComercial",
+          "telefono"
+        ],
+        "description": "Datos completos del local. El horario de apertura debe ser anterior al de cierre.",
+        "example": {
+          "nombreComercial": "Local de prueba",
+          "direccion": "Calle de prueba 123",
+          "telefono": "099123456",
+          "correo": "local@example.com",
+          "horarioApertura": "08:00:00",
+          "horarioCierre": "18:00:00"
+        }
+      },
+      "EstablecimientoRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombreComercial": {
+            "type": "string"
+          },
+          "direccion": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "correo": {
+            "type": "string"
+          },
+          "horarioApertura": {
+            "type": "string",
+            "pattern": "^\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "description": "Hora local HH:mm o HH:mm:ss. El servidor valida que sea una hora válida.",
+            "examples": [
+              "08:00:00"
+            ]
+          },
+          "horarioCierre": {
+            "type": "string",
+            "pattern": "^\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "description": "Hora local HH:mm o HH:mm:ss. El servidor valida que sea una hora válida.",
+            "examples": [
+              "08:00:00"
+            ]
+          }
+        },
+        "example": {
+          "id": 1,
+          "nombreComercial": "Local de prueba",
+          "direccion": "Calle de prueba 123",
+          "telefono": "099123456",
+          "correo": "local@example.com",
+          "horarioApertura": "08:00:00",
+          "horarioCierre": "18:00:00"
+        }
+      },
+      "ReservaEntrada": {
+        "type": "object",
+        "properties": {
+          "emailSolicitante": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1
+          },
+          "telefonoSolicitante": {
+            "type": "string",
+            "minLength": 1
+          },
+          "establecimientoId": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          "personalId": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          "fechaHoraTurno": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "description": "Fecha y hora local ISO, sin Z ni desplazamiento horario. Ejemplo: 2026-12-10T11:00:00.",
+            "examples": [
+              "2026-12-10T11:00:00"
+            ]
+          }
+        },
+        "required": [
+          "emailSolicitante",
+          "establecimientoId",
+          "fechaHoraTurno",
+          "personalId",
+          "telefonoSolicitante"
+        ],
+        "description": "Solicitud de turno. Los IDs deben ser positivos; las reglas de existencia, estado y horario se evalúan posteriormente por el procesador.",
+        "example": {
+          "emailSolicitante": "cliente@example.com",
+          "telefonoSolicitante": "099123456",
+          "establecimientoId": 1,
+          "personalId": 2,
+          "fechaHoraTurno": "2026-12-10T11:00:00"
+        }
+      },
+      "ReservaRespuesta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fechaReserva": {
+            "type": "string",
+            "format": "date"
+          },
+          "emailSolicitante": {
+            "type": "string"
+          },
+          "telefonoSolicitante": {
+            "type": "string"
+          },
+          "establecimientoId": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int64",
+            "description": "Identificador asignado o solicitado. Puede ser null en registros históricos incompletos."
+          },
+          "personalId": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int64",
+            "description": "Identificador asignado o solicitado. Puede ser null en registros históricos incompletos."
+          },
+          "fechaHoraTurno": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "description": "Fecha y hora local ISO, sin Z ni desplazamiento horario. Ejemplo: 2026-12-10T11:00:00.",
+            "examples": [
+              "2026-12-10T11:00:00"
+            ]
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "SOLICITADO",
+              "AGENDADO",
+              "RECHAZADO_SOLICITUD_NO_VALIDA",
+              "RECHAZADO_TURNO_OCUPADO",
+              "CANCELADO",
+              "ATENDIDO",
+              "FACTURADO"
+            ]
+          }
+        },
+        "description": "Reserva y su estado actual. SOLICITADO no confirma el turno. Las reservas canceladas se conservan en la base.",
+        "example": {
+          "id": 11,
+          "fechaReserva": "2026-11-06",
+          "emailSolicitante": "cliente@example.com",
+          "telefonoSolicitante": "099123456",
+          "establecimientoId": 1,
+          "personalId": 2,
+          "fechaHoraTurno": "2026-12-10T11:00:00",
+          "estado": "SOLICITADO"
+        }
+      },
+      "PersonalEstablecimientoEntrada": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "minLength": 1
+          },
+          "especialidad": {
+            "type": "string",
+            "minLength": 1
+          },
+          "costoConsulta": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "description": "Costo entero no negativo. Al ser int, su omisión se deserializa como cero."
+          },
+          "duracionEstandar": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 30,
+            "minimum": 30,
+            "description": "Duración en minutos: debe ser exactamente 30. Se debe enviar; su omisión genera cero y falla la validación."
+          },
+          "estado": {
+            "type": "boolean",
+            "description": "true: activo; false: inactivo. El servicio CRUD admite ambos valores; solo el personal activo puede atender reservas."
+          }
+        },
+        "required": [
+          "especialidad",
+          "estado",
+          "nombre",
+          "duracionEstandar"
+        ],
+        "example": {
+          "nombre": "Profesional de prueba",
+          "especialidad": "Atención general",
+          "costoConsulta": 1500,
+          "duracionEstandar": 30,
+          "estado": true
+        }
+      },
+      "MensajeRespuesta": {
+        "type": "object",
+        "properties": {
+          "mensaje": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "mensaje": "Solicitud de cancelación aceptada para procesamiento"
+        }
+      },
+      "ErrorRespuesta": {
+        "type": "object",
+        "required": [
+          "fechaHora",
+          "estado",
+          "error",
+          "mensaje",
+          "ruta"
+        ],
+        "properties": {
+          "fechaHora": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "description": "Fecha y hora local ISO, sin Z ni desplazamiento horario. Ejemplo: 2026-12-10T11:00:00.",
+            "examples": [
+              "2026-12-10T11:00:00"
+            ]
+          },
+          "estado": {
+            "type": "integer",
+            "description": "Código de estado HTTP."
+          },
+          "error": {
+            "type": "string",
+            "description": "Nombre del estado HTTP."
+          },
+          "mensaje": {
+            "type": "string",
+            "description": "Descripción del error; las validaciones pueden concatenar varios errores con punto y coma."
+          },
+          "ruta": {
+            "type": "string",
+            "description": "Ruta recibida, incluido el prefijo /api."
+          }
+        }
+      },
+      "DisponibilidadRespuesta": {
+        "type": "object",
+        "required": [
+          "personalId",
+          "fechaHoraTurno",
+          "disponible"
+        ],
+        "properties": {
+          "personalId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fechaHoraTurno": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "description": "Fecha y hora local ISO, sin Z ni desplazamiento horario. Ejemplo: 2026-12-10T11:00:00.",
+            "examples": [
+              "2026-12-10T11:00:00"
+            ]
+          },
+          "disponible": {
+            "type": "boolean",
+            "description": "Disponibilidad al consultar; no bloquea el horario."
+          }
+        },
+        "example": {
+          "personalId": 2,
+          "fechaHoraTurno": "2026-12-10T11:00:00",
+          "disponible": true
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Establecimientos",
+      "description": "Administración de locales y horarios."
+    },
+    {
+      "name": "Personal",
+      "description": "Administración de empleados y relación con establecimientos."
+    },
+    {
+      "name": "Reservas",
+      "description": "Solicitudes, cancelación, historial y disponibilidad."
+    }
+  ],
+  "x-revision": {
+    "fecha": "2026-11-06",
+    "fuentes": [
+      "OpenAPI exportado por la aplicación",
+      "Controladores REST",
+      "DTO de entrada y salida",
+      "Servicios y manejador global de excepciones del proyecto proporcionado"
+    ],
+    "alcance": "Revisión estática del contrato y de los códigos de éxito definidos en los controladores. Los ejemplos de errores son ilustrativos y no representan respuestas capturadas de pruebas. Los scripts de operaciones principales se ejecutaron previamente; no se ejecutaron nuevamente como parte de esta revisión."
+  }
+}
